@@ -26,13 +26,15 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## OPTION 1: Running the app locally
+
+### Installation
+
+1. Create a psql database called `task-management`
 
 ```bash
 $ npm install
 ```
-
-## Running the app
 
 ```bash
 # development
@@ -45,17 +47,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## OPTION 2: Running the app using docker
 
 ```bash
-# unit tests
-$ npm run test
+# build the image
+$ docker compose build
 
-# e2e tests
-$ npm run test:e2e
+# run the container
+$ docker compose up
 
-# test coverage
-$ npm run test:cov
 ```
 
 ## Support
