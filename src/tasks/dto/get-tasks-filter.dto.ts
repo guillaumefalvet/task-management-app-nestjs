@@ -4,10 +4,15 @@ import { ApiProperty } from '@nestjs/swagger';
 export class GetTasksFilterDto {
   @IsOptional()
   @IsEnum(TaskStatus)
-  @ApiProperty()
+  @ApiProperty({
+    name: 'status',
+    enum: TaskStatus,
+    required: false,
+    type: TaskStatus,
+  })
   status?: TaskStatus;
   @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ required: false })
   search?: string;
 }

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerTheme } from 'swagger-themes';
 import { TransformInterceptor } from './transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
@@ -16,9 +17,25 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('tasks')
     .addTag('auth')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const theme = new SwaggerTheme('v3');
+  const options = {
+    explorer: true,
+    customCss: theme.getBuffer('dark'),
+  };
+  SwaggerModule.setup('api', app, document, options);
   app.useGlobalInterceptors(new TransformInterceptor());
   await app.listen(configService.get('PORT'));
   logger.log('http://localhost:3000/api', 'OpenAPI docs');

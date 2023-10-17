@@ -4,7 +4,7 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(4)
   @MaxLength(20)
-  @ApiProperty()
+  @ApiProperty({ default: 'randomuser' })
   username: string;
 
   @IsString()
@@ -13,6 +13,6 @@ export class AuthCredentialsDto {
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message: 'password is too weak',
   })
-  @ApiProperty()
+  @ApiProperty({ default: 'asasasAz892)$' })
   password: string;
 }

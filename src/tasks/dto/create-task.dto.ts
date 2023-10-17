@@ -2,10 +2,10 @@ import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CreateTaskDto {
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ default: 'Random task' })
   title: string;
 
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ default: "Random task's description" })
   description: string;
 }
