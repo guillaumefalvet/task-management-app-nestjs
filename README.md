@@ -22,9 +22,19 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a simple Task Management App built with NestJS, a powerful Node.js framework. It allows you to manage and organize your tasks efficiently. Whether you're a developer looking for a reference project or someone in need of a task management solution, this app can be a great starting point.
+
+## Features
+
+- Create, read, update, and delete tasks.
+- User authentication and authorization.
+- Secure password hashing.
+- User registration and login.
+- JSON Web Tokens (JWT) for user sessions.
+- RESTful API with Swagger documentation.
+- Minimalistic and easy-to-understand codebase, perfect for learning.
 
 ## OPTION 1: Running the app locally
 
