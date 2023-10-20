@@ -1,5 +1,6 @@
 @endpoint = http://localhost:3000
 @accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
 
 ### getAllTasks
 GET {{ endpoint }}/tasks
@@ -41,4 +42,14 @@ content-type: application/json
 {
     "username": "gui@gui.com",
     "password": "asasasAz892)$"
+}
+
+### REFRESH TOKEN FIRST TIME
+# @name login
+POST {{endpoint}}/auth/refresh-token
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "refreshToken": "{{refreshToken}}"
 }

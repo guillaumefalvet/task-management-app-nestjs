@@ -1,4 +1,10 @@
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class AuthCredentialsDto {
   @IsString()
@@ -15,4 +21,7 @@ export class AuthCredentialsDto {
   })
   @ApiProperty({ default: 'asasasAz892)$' })
   password: string;
+
+  @IsOptional()
+  refreshToken: string;
 }
