@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { Task } from './task.entity';
+import { Task } from './entities/task.entity';
 import { TaskRepository } from './tasks.repository';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/modules/auth/entities/user.entity';
 
 @Injectable()
 export class TasksService {

@@ -70,6 +70,32 @@ $ docker compose up
 
 ```
 
+## Migrations & Seeding
+
+### Migrations
+
+```bash
+# run the migrations
+$ npm run typeorm:run-migrations
+
+# revert the migrations
+$ npm run typeorm:revert-migrations
+
+# create a migrations
+$ npm run typeorm:create-migrations --name=NameOfTheMigrations
+
+```
+
+### Seeding
+
+```bash
+# run the seedings & factories
+$ npm run seed:run
+
+# create seeding file
+$ npm run seed:create --name=NameOfTheSeeding
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

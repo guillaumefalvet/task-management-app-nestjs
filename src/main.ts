@@ -39,5 +39,11 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   await app.listen(configService.get('PORT'));
   logger.log('http://localhost:3000/api', 'OpenAPI docs');
+
+  if (process.env.STAGE === 'dev') {
+    logger.log('DEVELOPMENT MODE', 'environment');
+  } else if (process.env.STAGE === 'prod') {
+    logger.log('PRODUCTION MODE', 'environment');
+  }
 }
 bootstrap();

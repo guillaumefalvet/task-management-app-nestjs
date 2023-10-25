@@ -3,11 +3,11 @@ import { UsersRepository } from './users.repository';
 import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from './jwt-payload.interface';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { ConfigService } from '@nestjs/config';
-import { JwtTokens } from './jwt-tokens.interfance';
+import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(

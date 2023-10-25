@@ -39,3 +39,7 @@ Authorization: Bearer {{accessToken}}
 {
     "refreshToken": "{{refreshToken}}"
 }
+
+### REFRESH TOKEN FIRST TIME
+
+GET {{endpoint}}/auth/

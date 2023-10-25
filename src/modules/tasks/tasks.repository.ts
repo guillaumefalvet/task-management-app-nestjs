@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
-import { Task } from './task.entity';
-import { User } from 'src/auth/user.entity';
+import { Task } from './entities/task.entity';
+import { User } from 'src/modules/auth/entities/user.entity';
 
 @Injectable()
 export class TaskRepository {

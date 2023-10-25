@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm:create-migration": "STAGE=dev npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name",
+    "typeorm:run-migrations": "STAGE=dev npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
+    "typeorm:revert-migrations": "STAGE=dev npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
+    "seed:run": "npx typeorm-extension seed:run --dataSource ./src/config/data-source.ts",
+    "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -40,9 +46,11 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "swagger-themes": "^1.2.30",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "typeorm-extension": "^3.1.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
