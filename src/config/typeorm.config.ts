@@ -21,7 +21,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
         migrationsDir: __dirname + '/../database/migrations',
       },
       // autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       logging: false,
     };
   },

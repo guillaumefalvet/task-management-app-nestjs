@@ -17,7 +17,7 @@ const options: DataSourceOptions & SeederOptions = {
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   seeds: [join(__dirname, '/../database/seeds/*{.ts,.js}')],
   factories: [join(__dirname, '/../database/factories/**/*{.ts,.js}')],
-  synchronize: false,
+  synchronize: true,
   logging: true,
 };
 
