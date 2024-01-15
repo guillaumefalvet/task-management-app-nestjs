@@ -13,7 +13,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
   @Get()
   sayHello() {
-    return __dirname;
+    return 'hello world';
   }
   @Post('/signup')
   signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<any> {
