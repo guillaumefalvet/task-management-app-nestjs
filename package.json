@@ -1,9 +1,8 @@
 {
   "name": "task-management-app-nestjs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "author": "",
-  "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -19,7 +18,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "typeorm:create-migration": "STAGE=dev npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name",
+    "typeorm:create-migration": "STAGE=dev npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name && npx prettier ./src/database/migrations/ --write",
     "typeorm:run-migrations": "STAGE=dev npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
     "typeorm:revert-migrations": "STAGE=dev npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
     "seed:run": "npx typeorm-extension seed:run --dataSource ./src/config/data-source.ts",
