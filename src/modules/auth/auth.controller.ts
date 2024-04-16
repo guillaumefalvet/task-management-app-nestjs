@@ -2,30 +2,28 @@ import { Body, Controller, Get, Logger, Post, Req } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { GetUser } from './get-user.decorator';
-import { User } from './entities/user.entity';
+import { authRoute } from 'src/shared/models/routes';
 
-@Controller('auth')
-@ApiTags('auth')
+@Controller(authRoute.parent)
+@ApiTags(authRoute.parent)
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Get()
   sayHello() {
     return 'hello world';
   }
-  @Post('/signup')
+  @Post(authRoute.signup)
   signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<any> {
     return this.authService.signUp(authCredentialsDto);
   }
 
-  @Post('/signin')
+  @Post(authRoute.signin)
   signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<any> {
     return this.authService.signIn(authCredentialsDto);
   }
   @ApiBearerAuth('JWT-auth')
-  @Post('/refresh-token')
+  @Post(authRoute.refreshToken)
   refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
     @Req() request: Request,

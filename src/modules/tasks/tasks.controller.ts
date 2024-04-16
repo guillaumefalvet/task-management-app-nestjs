@@ -19,15 +19,17 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/modules/auth/entities/user.entity';
 import { GetUser } from 'src/modules/auth/get-user.decorator';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { taskRoute } from 'src/shared/models/routes';
+import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
-@Controller('tasks')
-@ApiTags('tasks')
+@Controller(taskRoute.parent)
+@ApiTags(taskRoute.parent)
 @ApiBearerAuth('JWT-auth')
 @UseGuards(AuthGuard())
 export class TasksController {
   private logger = new Logger('TasksController');
   constructor(private tasksService: TasksService) {}
-  @Get()
+  @Get(taskRoute.getTasks)
   getTasks(
     @Query() filterDto: GetTasksFilterDto,
     @GetUser() user: User,
@@ -39,12 +41,16 @@ export class TasksController {
     );
     return this.tasksService.getTasks(filterDto, user);
   }
-  @Get('/:id')
-  getTaskById(@Param('id') id: string, @GetUser() user: User): Promise<Task> {
+
+  @Get(taskRoute.getTaskById)
+  getTaskById(
+    @Param(TASK_ID_PARAM) id: string,
+    @GetUser() user: User,
+  ): Promise<Task> {
     return this.tasksService.getTaskById(id, user);
   }
 
-  @Post()
+  @Post(taskRoute.createTask)
   createTask(
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
@@ -57,17 +63,20 @@ export class TasksController {
     return this.tasksService.createTask(createTaskDto, user);
   }
 
-  @Delete('/:id')
-  deleteTask(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+  @Delete(taskRoute.deleteTask)
+  deleteTask(
+    @Param(TASK_ID_PARAM) id: string,
+    @GetUser() user: User,
+  ): Promise<void> {
     this.logger.verbose(
       `User "${user.username}" deleting a task. task id: ${id}`,
     );
     return this.tasksService.deleteTask(id, user);
   }
 
-  @Patch('/:id/status')
+  @Patch(taskRoute.updateTaskStatus)
   updateTaskStatus(
-    @Param('id') id: string,
+    @Param(TASK_ID_PARAM) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: User,
   ): Promise<Task> {
