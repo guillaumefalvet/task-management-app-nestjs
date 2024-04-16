@@ -14,7 +14,7 @@ export class TasksService {
     return this.taskEntityRepository.findAll(filterDto, user);
   }
 
-  async getTaskById(id: string, user: User): Promise<Task> {
+  getTaskById(id: string, user: User): Promise<Task> {
     return this.taskEntityRepository.findById(id, user);
   }
 
@@ -22,15 +22,11 @@ export class TasksService {
     return this.taskEntityRepository.createTask(createTaskDto, user);
   }
 
-  async deleteTask(id: string, user: User): Promise<void> {
+  deleteTask(id: string, user: User): Promise<void> {
     return this.taskEntityRepository.deleteById(id, user);
   }
 
-  async updateTaskStatus(
-    id: string,
-    status: TaskStatus,
-    user: User,
-  ): Promise<Task> {
+  updateTaskStatus(id: string, status: TaskStatus, user: User): Promise<Task> {
     return this.taskEntityRepository.updateTaskStatus(id, status, user);
   }
 }
