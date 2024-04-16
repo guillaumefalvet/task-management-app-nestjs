@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TaskStatus } from './task-status.enum';
+import { TaskStatus } from '../../shared/models/task-status';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Task } from './entities/task.entity';
