@@ -22,7 +22,8 @@
     "typeorm:run-migrations": "STAGE=dev npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
     "typeorm:revert-migrations": "STAGE=dev npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
     "seed:run": "npx typeorm-extension seed:run --dataSource ./src/config/data-source.ts",
-    "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name"
+    "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -63,6 +64,7 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^9.0.11",
     "jest": "^29.5.0",
     "prettier": "^2.8.8",
     "source-map-support": "^0.5.21",
