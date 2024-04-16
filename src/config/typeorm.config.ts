@@ -1,22 +1,15 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
-import { join } from 'path'; // Import the 'path' module for path manipulation
 import { DataSource } from 'typeorm';
-config();
+import { options } from './data-source';
+config(); // Load the environment variables from the .env file
 export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
-  useFactory: async (configService: ConfigService) => {
+  useFactory: async () => {
     return {
-      type: 'postgres',
-      host: configService.get('DB_HOST'),
-      port: configService.get('DB_PORT'),
-      username: configService.get('DB_USERNAME'),
-      password: configService.get('DB_PASSWORD'),
-      database: configService.get('DB_DATABASE'),
-      entities: [__dirname + '/../modules/**/entities/*{.ts,.js}'],
-      migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+      ...options,
       cli: {
         migrationsDir: __dirname + '/../database/migrations',
       },
@@ -26,15 +19,8 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
     };
   },
 };
-const configService = new ConfigService();
 // this is used for migrations
+// God forgive me for this
 export default new DataSource({
-  type: 'postgres',
-  host: configService.getOrThrow('DB_HOST'),
-  port: configService.getOrThrow('DB_PORT'),
-  database: configService.getOrThrow('DB_DATABASE'),
-  username: configService.getOrThrow('DB_USERNAME'),
-  password: configService.getOrThrow('DB_PASSWORD'),
-  migrations: [join(__dirname, '/../database/migrations', '**')],
-  entities: [join(__dirname, '/../modules/**/entities/**.entity.js')],
+  ...options,
 });
