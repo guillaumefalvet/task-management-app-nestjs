@@ -65,9 +65,12 @@ $ npm run start:prod
 # build the image
 $ docker compose build
 
-# run the container
-$ docker compose up
+# run the db 
+$ docker compose up -d db
 
+# run the containers
+
+$ docker compose up nestapp
 ```
 
 ## Migrations & Seeding
