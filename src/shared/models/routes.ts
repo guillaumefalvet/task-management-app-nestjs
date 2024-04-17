@@ -15,3 +15,8 @@ export enum authUrl {
   login = '/login',
   refreshAuthToken = '/refresh-token',
 }
+
+export enum apiDocsUrl {
+  rest = 'openapi-docs',
+  webSocket = 'asyncapi-docs',
+}
