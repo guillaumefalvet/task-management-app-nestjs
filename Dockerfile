@@ -15,4 +15,6 @@ RUN npm run build
 
 EXPOSE 3000
 
+COPY .env.docker .env
+
 CMD [ "npm", "run" , "start:prod" ]
