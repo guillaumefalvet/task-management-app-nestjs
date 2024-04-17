@@ -8,25 +8,25 @@ import { User } from 'src/modules/auth/entities/user.entity';
 
 @Injectable()
 export class TasksService {
-  constructor(private taskEntityRepository: TaskRepository) {}
+  constructor(private _taskEntityRepository: TaskRepository) {}
 
   getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
-    return this.taskEntityRepository.findAll(filterDto, user);
+    return this._taskEntityRepository.findAll(filterDto, user);
   }
 
   getTaskById(id: string, user: User): Promise<Task> {
-    return this.taskEntityRepository.findById(id, user);
+    return this._taskEntityRepository.findById(id, user);
   }
 
   createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
-    return this.taskEntityRepository.createTask(createTaskDto, user);
+    return this._taskEntityRepository.createTask(createTaskDto, user);
   }
 
   deleteTask(id: string, user: User): Promise<void> {
-    return this.taskEntityRepository.deleteById(id, user);
+    return this._taskEntityRepository.deleteById(id, user);
   }
 
   updateTaskStatus(id: string, status: TaskStatus, user: User): Promise<Task> {
-    return this.taskEntityRepository.updateTaskStatus(id, status, user);
+    return this._taskEntityRepository.updateTaskStatus(id, status, user);
   }
 }
