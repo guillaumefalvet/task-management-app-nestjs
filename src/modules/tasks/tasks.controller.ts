@@ -19,68 +19,68 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/modules/auth/entities/user.entity';
 import { GetUser } from 'src/modules/auth/get-user.decorator';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { taskRoute } from 'src/shared/models/routes';
+import { taskUrl } from 'src/shared/models/routes';
 import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
-@Controller(taskRoute.parent)
-@ApiTags(taskRoute.parent)
+@Controller(taskUrl.base)
+@ApiTags(taskUrl.base)
 @ApiBearerAuth('JWT-auth')
 @UseGuards(AuthGuard())
 export class TasksController {
-  private logger = new Logger('TasksController');
-  constructor(private tasksService: TasksService) {}
-  @Get(taskRoute.getTasks)
+  private _logger = new Logger('TasksController');
+  constructor(private _tasksService: TasksService) {}
+  @Get(taskUrl.getTasks)
   getTasks(
     @Query() filterDto: GetTasksFilterDto,
     @GetUser() user: User,
   ): Promise<Task[]> {
-    this.logger.verbose(
+    this._logger.verbose(
       `User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(
         filterDto,
       )}`,
     );
-    return this.tasksService.getTasks(filterDto, user);
+    return this._tasksService.getTasks(filterDto, user);
   }
 
-  @Get(taskRoute.getTaskById)
+  @Get(taskUrl.getTaskById)
   getTaskById(
     @Param(TASK_ID_PARAM) id: string,
     @GetUser() user: User,
   ): Promise<Task> {
-    return this.tasksService.getTaskById(id, user);
+    return this._tasksService.getTaskById(id, user);
   }
 
-  @Post(taskRoute.createTask)
+  @Post(taskUrl.createTask)
   createTask(
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
   ): Promise<Task> {
-    this.logger.verbose(
+    this._logger.verbose(
       `User "${user.username}" creating task. Data ${JSON.stringify(
         createTaskDto,
       )}`,
     );
-    return this.tasksService.createTask(createTaskDto, user);
+    return this._tasksService.createTask(createTaskDto, user);
   }
 
-  @Delete(taskRoute.deleteTask)
+  @Delete(taskUrl.deleteTask)
   deleteTask(
     @Param(TASK_ID_PARAM) id: string,
     @GetUser() user: User,
   ): Promise<void> {
-    this.logger.verbose(
+    this._logger.verbose(
       `User "${user.username}" deleting a task. task id: ${id}`,
     );
-    return this.tasksService.deleteTask(id, user);
+    return this._tasksService.deleteTask(id, user);
   }
 
-  @Patch(taskRoute.updateTaskStatus)
+  @Patch(taskUrl.updateTaskStatus)
   updateTaskStatus(
     @Param(TASK_ID_PARAM) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: User,
   ): Promise<Task> {
-    this.logger.verbose(
+    this._logger.verbose(
       `User "${
         user.username
       }" updating a task. task id: ${id}, status: ${JSON.stringify(
@@ -88,6 +88,6 @@ export class TasksController {
       )}`,
     );
     const { status } = updateTaskStatusDto;
-    return this.tasksService.updateTaskStatus(id, status, user);
+    return this._tasksService.updateTaskStatus(id, status, user);
   }
 }
