@@ -1,7 +1,7 @@
 import { TASK_ID_PARAM } from '../constants/constant-params';
 
-export enum taskRoute {
-  parent = 'tasks',
+export enum taskUrl {
+  base = 'tasks',
   getTasks = '/',
   getTaskById = `/${TASK_ID_PARAM}`,
   createTask = '/',
@@ -9,9 +9,9 @@ export enum taskRoute {
   updateTaskStatus = `/${TASK_ID_PARAM}/status`,
 }
 
-export enum authRoute {
-  parent = 'auth',
-  signup = '/signup',
-  signin = '/signin',
-  refreshToken = '/refresh-token',
+export enum authUrl {
+  base = 'auth',
+  createAccount = '/create-account',
+  login = '/login',
+  refreshAuthToken = '/refresh-token',
 }
