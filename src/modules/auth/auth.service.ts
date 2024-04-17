@@ -1,30 +1,22 @@
-import {
-  HttpStatus,
-  Injectable,
-  Logger,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import * as bcrypt from 'bcrypt';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 @Injectable()
 export class AuthService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private _usersRepository: UsersRepository) {}
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<any> {
-    return this.usersRepository.createUser(authCredentialsDto);
+    return this._usersRepository.createUser(authCredentialsDto);
   }
   async signIn(authCredentialsDto: AuthCredentialsDto): Promise<any> {
     const { username, password } = authCredentialsDto;
-    const user = await this.usersRepository.findOne(username);
+    const user = await this._usersRepository.findOne(username);
     if (user && (await bcrypt.compare(password, user.password))) {
-      const getTokens = this.usersRepository.generateJwtTokens(username);
+      const getTokens = this._usersRepository.generateJwtTokens(username);
       return getTokens;
     } else {
-      throw new UnauthorizedException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
+      throw new UnauthorizedException('Please check your login credentials');
     }
   }
   async refreshToken(
@@ -32,29 +24,27 @@ export class AuthService {
     request: Request,
   ): Promise<any> {
     const { refreshToken } = refreshTokenDto;
-
+    if (!request.headers || !request.headers['authorization']) {
+      throw new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Authorization header is missing',
+      });
+    }
     const accessToken = request.headers['authorization'].split('Bearer ')[1];
-    // Decode and verify the refresh token
-    const verifyRefreshToken = await this.usersRepository.verifyRefreshToken(
-      refreshToken,
-    );
-    Logger.log(JSON.stringify(verifyRefreshToken), 'refreshtoken decoded');
-
-    // Verify the access token
-    const verifyAccessToken = await this.usersRepository.verifyAccessToken(
+    await this._usersRepository.verifyRefreshToken(refreshToken);
+    const verifyAccessToken = await this._usersRepository.verifyAccessToken(
       accessToken,
     );
-    Logger.log(JSON.stringify(verifyAccessToken), 'accesstoken verify');
-
-    // Get the user from the database
-    const databaseUser = await this.usersRepository.getUserFromAccessToken(
+    const databaseUser = await this._usersRepository.getUserFromAccessToken(
       verifyAccessToken,
     );
 
     if (refreshToken !== databaseUser.refreshToken) {
-      throw new UnauthorizedException('Refresh token mismatch');
+      throw new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid refresh token',
+      });
     }
-
-    return this.usersRepository.generateJwtTokens(verifyAccessToken.username);
+    return this._usersRepository.generateJwtTokens(verifyAccessToken.username);
   }
 }
