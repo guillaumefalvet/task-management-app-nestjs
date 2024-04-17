@@ -1,20 +1,16 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { ConfigService } from '@nestjs/config';
-import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { User } from './entities/user.entity';
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersRepository: UsersRepository,
-    private jwtService: JwtService,
-    private configService: ConfigService,
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<any> {
     return this.usersRepository.createUser(authCredentialsDto);
   }
@@ -25,7 +21,10 @@ export class AuthService {
       const getTokens = this.usersRepository.generateJwtTokens(username);
       return getTokens;
     } else {
-      throw new UnauthorizedException('Please check your login credentials');
+      throw new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid credentials',
+      });
     }
   }
   async refreshToken(

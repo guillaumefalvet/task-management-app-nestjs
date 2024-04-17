@@ -1,4 +1,5 @@
 import {
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -14,37 +15,46 @@ import { User } from 'src/modules/auth/entities/user.entity';
 
 @Injectable()
 export class TaskRepository {
-  private logger = new Logger('TasksRepository', { timestamp: true });
+  private _logger = new Logger('TasksRepository', { timestamp: true });
   constructor(
     @InjectRepository(Task)
-    private readonly taskEntityRepository: Repository<Task>,
+    private readonly _taskEntityRepository: Repository<Task>,
   ) {}
 
   async findById(id: string, user: User): Promise<Task> {
-    const found = await this.taskEntityRepository.findOne({
+    const findTask = await this._taskEntityRepository.findOne({
       where: { id, user },
     });
-    if (!found) {
-      throw new NotFoundException(`Task with ID "${id}" not found`);
+    if (!findTask) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Task with ID${id} not found`,
+      });
     }
-    return found;
+    return findTask;
   }
 
   async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto;
-    const task = this.taskEntityRepository.create({
+    const task = this._taskEntityRepository.create({
       title,
       description,
       status: TaskStatus.OPEN,
       user,
     });
-    await this.taskEntityRepository.save(task);
-    return task;
+    const taskCreated = await this._taskEntityRepository.save(task);
+    if (!taskCreated) {
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Failed to create task',
+      });
+    }
+    return taskCreated;
   }
 
   async findAll(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
-    const query = this.taskEntityRepository.createQueryBuilder('task');
+    const query = this._taskEntityRepository.createQueryBuilder('task');
     query.where({ user });
     if (status) {
       query.andWhere('task.status = :status', { status });
@@ -60,21 +70,27 @@ export class TaskRepository {
       const tasks = await query.getMany();
       return tasks;
     } catch (error) {
-      this.logger.error(
+      this._logger.error(
         `Failed to get tasks for user "${
           user.username
         }. Filters: ${JSON.stringify(filterDto)}"`,
         error.stack,
       );
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Something went wrong',
+      });
     }
   }
 
   async deleteById(id: string, user: User): Promise<void> {
-    const result = await this.taskEntityRepository.delete({ id, user });
+    const result = await this._taskEntityRepository.delete({ id, user });
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Task with ID "${id}" not found`);
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Task with ID${id} not found`,
+      });
     }
   }
 
@@ -86,8 +102,13 @@ export class TaskRepository {
     const task = await this.findById(id, user);
 
     task.status = status;
-    await this.taskEntityRepository.save(task);
-
-    return task;
+    const saveTask = await this._taskEntityRepository.save(task);
+    if (!saveTask) {
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Failed to update task status',
+      });
+    }
+    return saveTask;
   }
 }

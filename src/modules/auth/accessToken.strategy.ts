@@ -1,4 +1,9 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersRepository } from './users.repository';
@@ -22,7 +27,10 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy) {
     const { username } = payload;
     const user: User = await this.usersRepository.findOne(username);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Unauthorized',
+      });
     }
     return user;
   }
