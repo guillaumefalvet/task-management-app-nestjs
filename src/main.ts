@@ -1,49 +1,38 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { SwaggerTheme } from 'swagger-themes';
 import { TransformInterceptor } from './transform.interceptor';
 import { ConfigService } from '@nestjs/config';
-async function bootstrap() {
-  const logger = new Logger();
-  const app = await NestFactory.create(AppModule);
-  const configService = app.get<ConfigService>(ConfigService);
-  app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
-  const config = new DocumentBuilder()
-    .setTitle('The Task management API')
-    .setDescription('The Task management API')
-    .setVersion('1.0')
-    .addTag('tasks')
-    .addTag('auth')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'JWT',
-        description: 'Enter JWT token',
-        in: 'header',
-      },
-      'JWT-auth',
-    )
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  const theme = new SwaggerTheme('v3');
-  const options = {
-    explorer: true,
-    customCss: theme.getBuffer('dark'),
-  };
-  SwaggerModule.setup('api', app, document, options);
-  app.useGlobalInterceptors(new TransformInterceptor());
-  await app.listen(configService.get('PORT'));
-  logger.log('http://localhost:3000/api', 'OpenAPI docs');
+import { OpenAPIDocumentationBuilder } from './docs/openAPI';
+import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
 
-  if (process.env.STAGE === 'dev') {
-    logger.log('DEVELOPMENT MODE', 'environment');
-  } else if (process.env.STAGE === 'prod') {
-    logger.log('PRODUCTION MODE', 'environment');
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const logger = new Logger('bootstrap');
+  const configService = app.get<ConfigService>(ConfigService);
+
+  app.enableCors();
+
+  // Create OpenAPI documentation
+  const openApiDocs = new OpenAPIDocumentationBuilder(app, configService);
+  openApiDocs.createOpenApiDocumentation();
+
+  // Create AsyncAPI documentation
+  const AsyncApiDocs = new AsyncApiDocumentationBuilder(app, configService);
+  await AsyncApiDocs.createAsyncApiDocumentation();
+
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new TransformInterceptor());
+
+  switch (process.env.STAGE) {
+    case 'dev':
+      logger.log('DEVELOPMENT MODE', 'environment');
+      break;
+    case 'prod':
+      logger.log('PRODUCTION MODE', 'environment');
+      break;
   }
+
+  await app.listen(configService.get('PORT'));
 }
 bootstrap();
