@@ -1,8 +1,10 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Env } from '../shared/models/env';
 import { apiDocsUrl } from 'src/shared/models/routes';
 import { SwaggerTheme } from 'swagger-themes';
+
 export class OpenAPIDocumentationBuilder {
   private _logger: Logger;
   private _httpProtocol: string;
@@ -13,8 +15,8 @@ export class OpenAPIDocumentationBuilder {
     private _configService: ConfigService,
   ) {
     this._logger = new Logger(OpenAPIDocumentationBuilder.name);
-    this._host = _configService.get('HOST');
-    this._port = _configService.get('PORT');
+    this._host = _configService.get(Env.appHost);
+    this._port = _configService.get(Env.appPort);
     this._httpProtocol = 'http://';
   }
   createOpenApiDocumentation(): void {

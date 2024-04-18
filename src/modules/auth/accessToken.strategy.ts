@@ -10,6 +10,7 @@ import { UsersRepository } from './users.repository';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { User } from './entities/user.entity';
 import { ConfigService } from '@nestjs/config';
+import { Env } from '../../shared/models/env';
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +19,7 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy) {
     private configService: ConfigService,
   ) {
     super({
-      secretOrKey: configService.get('JWT_ACCESS_SECRET'),
+      secretOrKey: configService.get(Env.jwtAccessTokenSecret),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

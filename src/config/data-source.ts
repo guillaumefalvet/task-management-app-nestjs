@@ -3,16 +3,18 @@ import { join } from 'path';
 import { config } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
+import { Env } from '../shared/models/env';
+
 config();
 const configService = new ConfigService();
 
 export const options: DataSourceOptions & SeederOptions = {
-  type: 'postgres',
-  host: configService.getOrThrow('DB_HOST'),
-  port: configService.getOrThrow('DB_PORT'),
-  database: configService.getOrThrow('DB_DATABASE'),
-  username: configService.getOrThrow('DB_USERNAME'),
-  password: configService.getOrThrow('DB_PASSWORD'),
+  type: Env.dataBaseType,
+  host: configService.getOrThrow(Env.dataBaseHost),
+  port: configService.getOrThrow(Env.dataBasePort),
+  database: configService.getOrThrow(Env.database),
+  username: configService.getOrThrow(Env.dataBaseUsername),
+  password: configService.getOrThrow<string>(Env.dataBasePassword),
   entities: [__dirname + '/../modules/**/entities/**.entity.{.ts,.js}'],
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   seeds: [join(__dirname, '/../database/seeds/*{.ts,.js}')],

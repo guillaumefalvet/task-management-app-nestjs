@@ -5,6 +5,7 @@ import { TransformInterceptor } from './transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { OpenAPIDocumentationBuilder } from './docs/openAPI';
 import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
+import { Env } from './shared/models/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -33,6 +34,6 @@ async function bootstrap() {
       break;
   }
 
-  await app.listen(configService.get('PORT'));
+  await app.listen(configService.get(Env.appPort));
 }
 bootstrap();

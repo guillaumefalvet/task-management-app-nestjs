@@ -14,6 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { Env } from '../../shared/models/env';
 @Injectable()
 export class UsersRepository {
   constructor(
@@ -71,7 +72,7 @@ export class UsersRepository {
           type: 'access',
         },
         {
-          secret: this._configService.get('JWT_ACCESS_SECRET'),
+          secret: this._configService.get(Env.jwtAccessTokenSecret),
         },
       ),
       this._jwtService.signAsync(
@@ -80,8 +81,8 @@ export class UsersRepository {
           type: 'refresh',
         },
         {
-          secret: this._configService.get('JWT_REFRESH_SECRET'),
-          expiresIn: '7d',
+          secret: this._configService.get(Env.jwtRefreshTokenSecret),
+          expiresIn: this._configService.get(Env.jwtRefreshTokenExpiration),
         },
       ),
     ]);
@@ -94,7 +95,7 @@ export class UsersRepository {
   async verifyRefreshToken(refreshToken: string): Promise<any> {
     const verifyRefreshToken = await this._jwtService.decode(
       refreshToken,
-      this._configService.get('JWT_REFRESH_SECRET'),
+      this._configService.get(Env.jwtRefreshTokenSecret),
     );
 
     if (!verifyRefreshToken) {
@@ -109,7 +110,7 @@ export class UsersRepository {
   async verifyAccessToken(accessToken: string): Promise<JwtPayload> {
     return await this._jwtService.verify(accessToken, {
       ignoreExpiration: true,
-      secret: this._configService.get('JWT_ACCESS_SECRET'),
+      secret: this._configService.get(Env.jwtAccessTokenSecret),
     });
   }
 

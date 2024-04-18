@@ -1,16 +1,17 @@
 import * as Joi from '@hapi/joi';
+import { Env } from '../shared/models/env';
 
 export const configValidationSchema = Joi.object({
-  PORT: Joi.number().default(3000).required(),
-  STAGE: Joi.string().required(),
-  HOST: Joi.string().required(),
-  DB_HOST: Joi.string().required(),
-  DB_PORT: Joi.number().default(5432).required(),
-  DB_USERNAME: Joi.string().required(),
-  DB_PASSWORD: Joi.string().required(),
-  DB_DATABASE: Joi.string().required(),
-  JWT_ACCESS_SECRET: Joi.string().required(),
-  JWT_REFRESH_SECRET: Joi.string().required(),
-  JWT_ACCESS_TOKEN_EXPIRATION: Joi.string().required(),
-  JWT_REFRESH_TOKEN_EXPIRATION: Joi.string().required(),
+  [Env.appPort]: Joi.number().default(3000).required(),
+  [Env.appStage]: Joi.string().required(),
+  [Env.appHost]: Joi.string().required(),
+  [Env.dataBaseHost]: Joi.string().required(),
+  [Env.dataBasePort]: Joi.number().default(5432).required(),
+  [Env.dataBaseUsername]: Joi.string().required(),
+  [Env.dataBasePassword]: Joi.string().required(),
+  [Env.database]: Joi.string().required(),
+  [Env.jwtAccessTokenSecret]: Joi.string().required(),
+  [Env.jwtRefreshTokenSecret]: Joi.string().required(),
+  [Env.jwtAccessTokenExpiration]: Joi.string().required(),
+  [Env.jwtRefreshTokenExpiration]: Joi.string().required(),
 });
