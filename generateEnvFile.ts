@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import { Env } from 'src/shared/models/env';
+import * as readlineSync from 'readline-sync';
+import { Env } from './src/shared/models/env';
 
 function generateEnvFile() {
   if (fs.existsSync('.env')) {
@@ -16,7 +17,8 @@ function generateEnvFile() {
       key !== 'appStage'
     ) {
       const enumValue = Env[key as keyof typeof Env];
-      envContent += `${enumValue}=\n`;
+      const userInput = readlineSync.question(`Enter value for ${enumValue}: `);
+      envContent += `${enumValue}=${userInput}\n`;
     }
   }
 
