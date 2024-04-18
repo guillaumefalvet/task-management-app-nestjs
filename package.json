@@ -23,7 +23,8 @@
     "typeorm:revert-migrations": "STAGE=dev npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
     "seed:run": "npx typeorm-extension seed:run --dataSource ./src/config/data-source.ts",
     "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generateEnv": "tsx ./generateEnv.ts"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
