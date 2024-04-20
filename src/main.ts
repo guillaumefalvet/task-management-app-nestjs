@@ -17,6 +17,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('bootstrap');
   const configService = app.get<ConfigService>(ConfigService);
+  const PORT = configService.get(Env.appPort);
+  const HOST = configService.get(Env.appHost);
+  const STAGE = configService.get(Env.appStage);
+  const HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
 
   app.enableCors({
     origin: '*',
@@ -35,7 +39,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  switch (process.env.STAGE) {
+  switch (STAGE) {
     case 'dev':
       logger.log('DEVELOPMENT MODE');
       break;
@@ -44,12 +48,8 @@ async function bootstrap() {
       break;
   }
 
-  await app.listen(configService.get(Env.appPort), () => {
-    logger.log(
-      `Application is running on: http://${configService.get(
-        Env.appHost,
-      )}:${configService.get(Env.appPort)}`,
-    );
+  await app.listen(PORT, () => {
+    logger.log(`Application is running on: ${HTTP_PROTOCOL}://${HOST}:${PORT}`);
   });
 }
 bootstrap();

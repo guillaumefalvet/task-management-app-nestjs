@@ -8,18 +8,15 @@ import { Env } from 'src/shared/models/env';
 import { apiDocsUrl } from 'src/shared/models/routes';
 
 export class OpenAPIDocumentationBuilder {
-  private _logger: Logger;
-  private _httpProtocol: string;
-  private _host: string;
-  private _port: number;
-  constructor(
-    private app: INestApplication,
-    private _configService: ConfigService,
-  ) {
+  private _logger!: Logger;
+  private readonly _HTTP_PROTOCOL!: string;
+  private readonly _APP_HOST!: string;
+  private readonly _APP_PORT!: number;
+  constructor(private app: INestApplication, configService: ConfigService) {
     this._logger = new Logger(OpenAPIDocumentationBuilder.name);
-    this._host = _configService.get(Env.appHost);
-    this._port = _configService.get(Env.appPort);
-    this._httpProtocol = 'http://';
+    this._APP_HOST = configService.get(Env.appHost);
+    this._APP_PORT = configService.get(Env.appPort);
+    this._HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
   }
   createOpenApiDocumentation(): void {
     const document = SwaggerModule.createDocument(
@@ -30,7 +27,7 @@ export class OpenAPIDocumentationBuilder {
         .setVersion('1.0')
         .setExternalDoc(
           'Find out about the websocket part of the API',
-          `${this._httpProtocol}${this._host}:${this._port}/${apiDocsUrl.webSocket}`,
+          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.webSocket}`,
         )
         .addTag('tasks')
         .addTag('auth')
@@ -54,7 +51,7 @@ export class OpenAPIDocumentationBuilder {
     };
     SwaggerModule.setup(apiDocsUrl.rest, this.app, document, options);
     this._logger.log(
-      `${this._httpProtocol}${this._host}:${this._port}/${apiDocsUrl.rest}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.rest}`,
     );
   }
 }

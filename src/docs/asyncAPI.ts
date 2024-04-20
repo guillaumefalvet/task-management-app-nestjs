@@ -7,18 +7,15 @@ import { apiDocsUrl } from 'src/shared/models/routes';
 import { Env } from 'src/shared/models/env';
 
 export class AsyncApiDocumentationBuilder {
-  private _logger: Logger;
-  private _httpProtocol: string;
-  private _host: string;
-  private _port: number;
-  constructor(
-    private _app: INestApplication,
-    private _configService: ConfigService,
-  ) {
+  private _logger!: Logger;
+  private readonly _HTTP_PROTOCOL!: string;
+  private readonly _APP_HOST!: string;
+  private readonly _APP_PORT!: number;
+  constructor(private _app: INestApplication, configService: ConfigService) {
     this._logger = new Logger(AsyncApiDocumentBuilder.name);
-    this._host = _configService.get(Env.appHost);
-    this._port = _configService.get(Env.appPort);
-    this._httpProtocol = 'http://';
+    this._APP_HOST = configService.get(Env.appHost);
+    this._APP_PORT = configService.get(Env.appPort);
+    this._HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
   }
   async createAsyncApiDocumentation(): Promise<void> {
     const document = AsyncApiModule.createDocument(
@@ -29,12 +26,12 @@ export class AsyncApiDocumentationBuilder {
         .setVersion('1.0')
         .setExternalDoc(
           'Find out about the REST API part of the API',
-          `${this._httpProtocol}${this._host}:${this._port}/${apiDocsUrl.rest}`,
+          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.rest}`,
         )
         .setDefaultContentType('application/json')
         .addSecurity('user-password', { type: 'userPassword' })
         .addServer('task-management', {
-          url: `ws://${this._host}:${this._port}`,
+          url: `ws://${this._APP_HOST}:${this._APP_PORT}`,
           protocol: 'socket.io',
         })
         .build(),
@@ -42,7 +39,7 @@ export class AsyncApiDocumentationBuilder {
 
     await AsyncApiModule.setup(apiDocsUrl.webSocket, this._app, document);
     this._logger.log(
-      `${this._httpProtocol}${this._host}:${this._port}/${apiDocsUrl.webSocket}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.webSocket}`,
     );
   }
 }
