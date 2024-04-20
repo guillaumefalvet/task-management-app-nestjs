@@ -1,7 +1,7 @@
-@port = 3000
-@host = localhost
-@protocol = http
-@endpoint = {{ protocol }}://{{ host }}:{{ port }}
+@port = {{$dotenv PORT}}
+@host = {{$dotenv HOST}}
+@protocol = {{$dotenv HTTP_PROTOCOL}}
+@endpoint = {{protocol}}://{{host}}:{{port}}
 @accessToken = {{login.response.body.accessToken}}
 @refreshToken = {{login.response.body.refreshToken}}
 @id = {{createTask.response.body.id}}
