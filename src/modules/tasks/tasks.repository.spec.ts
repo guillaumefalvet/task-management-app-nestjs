@@ -4,11 +4,20 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { TaskRepository } from './tasks.repository';
+
+// - Entities - //
+import { User } from 'src/modules/auth/entities/user.entity';
 import { Task } from './entities/task.entity';
+
+// - Repositories - //
+import { TaskRepository } from './tasks.repository';
+
+// - Models - //
 import { CreateTaskDto } from './dto/create-task.dto';
-import { TaskStatus } from '../../shared/models/task-status';
-import { User } from '../auth/entities/user.entity';
+
+// - Models - //
+import { TaskStatus } from 'src/shared/models/task-status';
+
 describe('TaskRepository', () => {
   let taskRepository: TaskRepository;
   let taskEntityRepository: Repository<Task>;

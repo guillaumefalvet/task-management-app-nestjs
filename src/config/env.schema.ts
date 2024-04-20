@@ -1,7 +1,12 @@
 import * as Joi from '@hapi/joi';
-import { Env } from '../shared/models/env';
 
-export const configValidationSchema = Joi.object({
+// - Models - //
+import { Env } from 'src/shared/models/env';
+
+/**
+ * Represents the validation schema for the application env.
+ */
+export const envFileValidationSchema = Joi.object({
   [Env.appPort]: Joi.number().default(3000).required(),
   [Env.appStage]: Joi.string().required(),
   [Env.appHost]: Joi.string().required(),

@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TasksModule } from './modules/tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './modules/auth/auth.module';
-import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { ConfigModule } from '@nestjs/config';
-import { configValidationSchema } from './config/env.schema';
+
+// - Modules - //
+import { TasksModule } from './modules/tasks/tasks.module';
+import { AuthModule } from './modules/auth/auth.module';
+
+// - Config - //
+import { typeOrmAsyncConfig } from './config/typeorm.config';
+import { envFileValidationSchema } from './config/env.schema';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`.env`],
-      validationSchema: configValidationSchema,
+      validationSchema: envFileValidationSchema,
     }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     TasksModule,

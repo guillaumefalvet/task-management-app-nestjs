@@ -1,10 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { TransformInterceptor } from './transform.interceptor';
 import { ConfigService } from '@nestjs/config';
+
+// - Interceptors - //
+import { TransformInterceptor } from './transform.interceptor';
+
+// - Documentation - //
 import { OpenAPIDocumentationBuilder } from './docs/openAPI';
 import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
+
+// - Models - //
 import { Env } from './shared/models/env';
 
 async function bootstrap() {
@@ -27,13 +33,19 @@ async function bootstrap() {
 
   switch (process.env.STAGE) {
     case 'dev':
-      logger.log('DEVELOPMENT MODE', 'environment');
+      logger.log('DEVELOPMENT MODE');
       break;
     case 'prod':
-      logger.log('PRODUCTION MODE', 'environment');
+      logger.log('PRODUCTION MODE');
       break;
   }
 
-  await app.listen(configService.get(Env.appPort));
+  await app.listen(configService.get(Env.appPort), () => {
+    logger.log(
+      `Application is running on: http://${configService.get(
+        Env.appHost,
+      )}:${configService.get(Env.appPort)}`,
+    );
+  });
 }
 bootstrap();

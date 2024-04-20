@@ -1,8 +1,10 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AsyncApiDocumentBuilder, AsyncApiModule } from 'nestjs-asyncapi';
-import { apiDocsUrl } from '../shared/models/routes';
-import { Env } from '../shared/models/env';
+
+// - Models - //
+import { apiDocsUrl } from 'src/shared/models/routes';
+import { Env } from 'src/shared/models/env';
 
 export class AsyncApiDocumentationBuilder {
   private _logger: Logger;

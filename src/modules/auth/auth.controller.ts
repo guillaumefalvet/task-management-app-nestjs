@@ -1,8 +1,14 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { AuthCredentialsDto } from './dto/auth-credientials.dto';
-import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
+// - DTOs - //
+import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+
+// - Services - //
+import { AuthService } from './auth.service';
+
+// - Models - //
 import { authUrl } from 'src/shared/models/routes';
 
 @Controller(authUrl.base)

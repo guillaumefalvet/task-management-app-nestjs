@@ -10,16 +10,26 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+
+// - Services - //
 import { TasksService } from './tasks.service';
+
+// - DTOs - //
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+
+// - Entities - //
 import { Task } from './entities/task.entity';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/modules/auth/entities/user.entity';
+
+// - Decorators - //
 import { GetUser } from 'src/modules/auth/get-user.decorator';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { taskUrl } from 'src/shared/models/routes';
+
+// - Constants - //
 import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
 @Controller(taskUrl.base)

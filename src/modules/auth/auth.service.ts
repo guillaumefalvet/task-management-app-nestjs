@@ -1,8 +1,13 @@
 import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
-import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import * as bcrypt from 'bcrypt';
+
+// - Repositories - //
+import { UsersRepository } from './users.repository';
+
+// - DTOs - //
+import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+
 @Injectable()
 export class AuthService {
   constructor(private _usersRepository: UsersRepository) {}

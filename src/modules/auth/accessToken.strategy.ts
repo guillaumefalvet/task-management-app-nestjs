@@ -6,11 +6,19 @@ import {
 } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersRepository } from './users.repository';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { User } from './entities/user.entity';
 import { ConfigService } from '@nestjs/config';
-import { Env } from '../../shared/models/env';
+
+// - Repositories - //
+import { UsersRepository } from './users.repository';
+
+// - Interfaces - //
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+
+// - Entities - //
+import { User } from './entities/user.entity';
+
+// - Models - //
+import { Env } from 'src/shared/models/env';
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy) {

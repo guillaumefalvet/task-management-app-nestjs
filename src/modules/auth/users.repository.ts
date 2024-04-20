@@ -7,14 +7,23 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
-import { AuthCredentialsDto } from './dto/auth-credientials.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+
+// - Entities - //
+import { User } from './entities/user.entity';
+
+// - DTOs - //
+import { AuthCredentialsDto } from './dto/auth-credientials.dto';
+
+// - Interfaces - //
 import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { Env } from '../../shared/models/env';
+
+// - Models - //
+import { Env } from 'src/shared/models/env';
+
 @Injectable()
 export class UsersRepository {
   constructor(

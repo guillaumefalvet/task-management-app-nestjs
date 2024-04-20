@@ -1,9 +1,11 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { Env } from '../shared/models/env';
-import { apiDocsUrl } from 'src/shared/models/routes';
 import { SwaggerTheme } from 'swagger-themes';
+
+// - Models - //
+import { Env } from 'src/shared/models/env';
+import { apiDocsUrl } from 'src/shared/models/routes';
 
 export class OpenAPIDocumentationBuilder {
   private _logger: Logger;
