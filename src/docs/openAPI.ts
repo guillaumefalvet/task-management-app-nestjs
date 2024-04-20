@@ -12,12 +12,14 @@ export class OpenAPIDocumentationBuilder {
   private readonly _HTTP_PROTOCOL!: string;
   private readonly _APP_HOST!: string;
   private readonly _APP_PORT!: number;
+
   constructor(private app: INestApplication, configService: ConfigService) {
     this._logger = new Logger(OpenAPIDocumentationBuilder.name);
     this._APP_HOST = configService.get(EnvEnum.appHost);
     this._APP_PORT = configService.get(EnvEnum.appPort);
     this._HTTP_PROTOCOL = configService.get(EnvEnum.appHttpProtocol);
   }
+
   createOpenApiDocumentation(): void {
     const document = SwaggerModule.createDocument(
       this.app,
