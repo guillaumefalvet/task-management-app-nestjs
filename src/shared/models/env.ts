@@ -1,4 +1,4 @@
-export enum Env {
+export enum EnvEnum {
   appStage = 'STAGE',
   appPort = 'PORT',
   appHost = 'HOST',
