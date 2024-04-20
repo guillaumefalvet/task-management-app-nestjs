@@ -38,9 +38,9 @@ This is a simple Task Management App built with NestJS, a powerful Node.js frame
 - RESTful API with Swagger documentation.
 - Minimalistic and easy-to-understand codebase, perfect for learning.
 
-## OPTION 1: Running the app locally
+### Setup
 
-### Installation
+## OPTION 1 : Running the application locally
 
 1. Create a psql database called `task-management`
 
@@ -59,19 +59,30 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## OPTION 2: Running the app using docker
+## OPTION 2 : Running the application using docker
 
 ```bash
 # build the image
 $ docker compose build
 
-# run the db 
+# run the db detached
 $ docker compose up -d db
 
 # run the containers
 
 $ docker compose up nestapp
 ```
+
+## Usage
+
+OpenAPI
+
+- When you start the application you will see in the chatlog a mention of `OpenAPIDocumentationBuilder`, open the link that it points to. You will arrive on an online interface to rest each routes.
+
+Rest Client
+
+- Download the vscode extension `Rest Client`(humao.rest-client)
+- Open the `rest.http` at root of the repository.
 
 ## Migrations & Seeding
 
