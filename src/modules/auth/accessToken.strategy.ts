@@ -18,7 +18,7 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { User } from './entities/user.entity';
 
 // - Models - //
-import { Env } from 'src/shared/models/env';
+import { EnvEnum } from 'src/shared/models/env';
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy) {
@@ -27,7 +27,7 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy) {
     private configService: ConfigService,
   ) {
     super({
-      secretOrKey: configService.get(Env.jwtAccessTokenSecret),
+      secretOrKey: configService.get(EnvEnum.jwtAccessTokenSecret),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

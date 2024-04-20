@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as readlineSync from 'readline-sync';
 
 // - Models - //
-import { Env } from 'src/shared/models/env';
+import { EnvEnum } from 'src/shared/models/env';
 
 function generateEnvFile() {
   if (fs.existsSync('.env')) {
@@ -12,13 +12,13 @@ function generateEnvFile() {
 
   let envContent = '';
 
-  for (const key in Env) {
+  for (const key in EnvEnum) {
     if (
-      Object.prototype.hasOwnProperty.call(Env, key) &&
+      Object.prototype.hasOwnProperty.call(EnvEnum, key) &&
       key !== 'dataBaseType' &&
       key !== 'appStage'
     ) {
-      const enumValue = Env[key as keyof typeof Env];
+      const enumValue = EnvEnum[key as keyof typeof EnvEnum];
       const userInput = readlineSync.question(`Enter value for ${enumValue}: `);
       envContent += `${enumValue}=${userInput}\n`;
     }

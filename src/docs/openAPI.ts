@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerTheme } from 'swagger-themes';
 
 // - Models - //
-import { Env } from 'src/shared/models/env';
+import { EnvEnum } from 'src/shared/models/env';
 import { apiDocsUrl } from 'src/shared/models/routes';
 
 export class OpenAPIDocumentationBuilder {
@@ -14,9 +14,9 @@ export class OpenAPIDocumentationBuilder {
   private readonly _APP_PORT!: number;
   constructor(private app: INestApplication, configService: ConfigService) {
     this._logger = new Logger(OpenAPIDocumentationBuilder.name);
-    this._APP_HOST = configService.get(Env.appHost);
-    this._APP_PORT = configService.get(Env.appPort);
-    this._HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
+    this._APP_HOST = configService.get(EnvEnum.appHost);
+    this._APP_PORT = configService.get(EnvEnum.appPort);
+    this._HTTP_PROTOCOL = configService.get(EnvEnum.appHttpProtocol);
   }
   createOpenApiDocumentation(): void {
     const document = SwaggerModule.createDocument(

@@ -11,16 +11,16 @@ import { OpenAPIDocumentationBuilder } from './docs/openAPI';
 import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
 
 // - Models - //
-import { Env } from './shared/models/env';
+import { EnvEnum } from './shared/models/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('bootstrap');
   const configService = app.get<ConfigService>(ConfigService);
-  const PORT = configService.get(Env.appPort);
-  const HOST = configService.get(Env.appHost);
-  const STAGE = configService.get(Env.appStage);
-  const HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
+  const PORT = configService.get(EnvEnum.appPort);
+  const HOST = configService.get(EnvEnum.appHost);
+  const STAGE = configService.get(EnvEnum.appStage);
+  const HTTP_PROTOCOL = configService.get(EnvEnum.appHttpProtocol);
 
   app.enableCors({
     origin: '*',

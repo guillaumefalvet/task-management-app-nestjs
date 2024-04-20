@@ -4,7 +4,7 @@ import { AsyncApiDocumentBuilder, AsyncApiModule } from 'nestjs-asyncapi';
 
 // - Models - //
 import { apiDocsUrl } from 'src/shared/models/routes';
-import { Env } from 'src/shared/models/env';
+import { EnvEnum } from 'src/shared/models/env';
 
 export class AsyncApiDocumentationBuilder {
   private _logger!: Logger;
@@ -13,9 +13,9 @@ export class AsyncApiDocumentationBuilder {
   private readonly _APP_PORT!: number;
   constructor(private _app: INestApplication, configService: ConfigService) {
     this._logger = new Logger(AsyncApiDocumentBuilder.name);
-    this._APP_HOST = configService.get(Env.appHost);
-    this._APP_PORT = configService.get(Env.appPort);
-    this._HTTP_PROTOCOL = configService.get(Env.appHttpProtocol);
+    this._APP_HOST = configService.get(EnvEnum.appHost);
+    this._APP_PORT = configService.get(EnvEnum.appPort);
+    this._HTTP_PROTOCOL = configService.get(EnvEnum.appHttpProtocol);
   }
   async createAsyncApiDocumentation(): Promise<void> {
     const document = AsyncApiModule.createDocument(

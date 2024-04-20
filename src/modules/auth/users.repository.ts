@@ -22,7 +22,7 @@ import { JwtTokens } from './interfaces/jwt-tokens.interfance';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 // - Models - //
-import { Env } from 'src/shared/models/env';
+import { EnvEnum } from 'src/shared/models/env';
 
 @Injectable()
 export class UsersRepository {
@@ -81,7 +81,7 @@ export class UsersRepository {
           type: 'access',
         },
         {
-          secret: this._configService.get(Env.jwtAccessTokenSecret),
+          secret: this._configService.get(EnvEnum.jwtAccessTokenSecret),
         },
       ),
       this._jwtService.signAsync(
@@ -90,8 +90,8 @@ export class UsersRepository {
           type: 'refresh',
         },
         {
-          secret: this._configService.get(Env.jwtRefreshTokenSecret),
-          expiresIn: this._configService.get(Env.jwtRefreshTokenExpiration),
+          secret: this._configService.get(EnvEnum.jwtRefreshTokenSecret),
+          expiresIn: this._configService.get(EnvEnum.jwtRefreshTokenExpiration),
         },
       ),
     ]);
@@ -104,7 +104,7 @@ export class UsersRepository {
   async verifyRefreshToken(refreshToken: string): Promise<any> {
     const verifyRefreshToken = await this._jwtService.decode(
       refreshToken,
-      this._configService.get(Env.jwtRefreshTokenSecret),
+      this._configService.get(EnvEnum.jwtRefreshTokenSecret),
     );
 
     if (!verifyRefreshToken) {
@@ -119,7 +119,7 @@ export class UsersRepository {
   async verifyAccessToken(accessToken: string): Promise<JwtPayload> {
     return await this._jwtService.verify(accessToken, {
       ignoreExpiration: true,
-      secret: this._configService.get(Env.jwtAccessTokenSecret),
+      secret: this._configService.get(EnvEnum.jwtAccessTokenSecret),
     });
   }
 
