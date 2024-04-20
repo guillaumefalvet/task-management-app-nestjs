@@ -2,20 +2,20 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 // - Entities - //
-import { User } from 'src/modules/auth/entities/user.entity';
+import { User } from '../../auth/entities/user.entity';
 
 // - Models - //
-import { TaskStatus } from 'src/shared/models/task-status';
+import { TaskStatus } from '../../../shared/models/task-status';
 
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 255 })
   description: string;
 
   @Column({ type: 'varchar', length: 30 })
