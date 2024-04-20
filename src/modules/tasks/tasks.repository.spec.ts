@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 
 // - Entities - //
 import { User } from 'src/modules/auth/entities/user.entity';
-import { Task } from './entities/task.entity';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 
 // - Repositories - //
 import { TaskRepository } from './tasks.repository';
@@ -16,7 +16,7 @@ import { TaskRepository } from './tasks.repository';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 // - Models - //
-import { TaskStatus } from 'src/shared/models/task-status';
+import { TaskStatus } from '../../shared/models/task-status';
 
 describe('TaskRepository', () => {
   let taskRepository: TaskRepository;

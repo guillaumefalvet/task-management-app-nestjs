@@ -17,7 +17,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 // - Models - //
-import { TaskStatus } from 'src/shared/models/task-status';
+import { TaskStatus } from '../../shared/models/task-status';
 
 @Injectable()
 export class TaskRepository {
