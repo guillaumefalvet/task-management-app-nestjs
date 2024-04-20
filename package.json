@@ -1,8 +1,8 @@
 {
   "name": "task-management-app-nestjs",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
+  "description": "Task Management App built with NestJS, a powerful Node.js framework. It allows you to manage and organize your tasks efficiently. Whether you're a developer looking for a reference project or someone in need of a task management solution, this app can be a great starting point.",
+  "author": "Falvet Guillaume",
   "license": "MIT",
   "scripts": {
     "build": "nest build",
