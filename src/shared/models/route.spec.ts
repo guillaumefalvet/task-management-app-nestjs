@@ -5,10 +5,10 @@ describe('taskRoute', () => {
   it('should have the correct values', () => {
     expect(TaskUrlEnum.base).toBe('tasks');
     expect(TaskUrlEnum.getTasks).toBe('/');
-    expect(TaskUrlEnum.getTaskById).toBe(`/${TASK_ID_PARAM}`);
+    expect(TaskUrlEnum.getTaskById).toBe(`/:${TASK_ID_PARAM}`);
     expect(TaskUrlEnum.createTask).toBe('/');
-    expect(TaskUrlEnum.deleteTask).toBe(`/${TASK_ID_PARAM}`);
-    expect(TaskUrlEnum.updateTaskStatus).toBe(`/${TASK_ID_PARAM}/status`);
+    expect(TaskUrlEnum.deleteTask).toBe(`/:${TASK_ID_PARAM}`);
+    expect(TaskUrlEnum.updateTaskStatus).toBe(`/:${TASK_ID_PARAM}/status`);
   });
 });
 describe('authRoute', () => {
