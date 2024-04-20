@@ -18,7 +18,11 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
   const configService = app.get<ConfigService>(ConfigService);
 
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: '*',
+    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
+  });
 
   // Create OpenAPI documentation
   const openApiDocs = new OpenAPIDocumentationBuilder(app, configService);
