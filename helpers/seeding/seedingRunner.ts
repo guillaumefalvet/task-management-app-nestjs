@@ -17,7 +17,7 @@ const configService = new ConfigService();
 // This file is used for seeding
 (async () => {
   const options: DataSourceOptions & SeederOptions = {
-    type: Env.dataBaseType,
+    type: configService.getOrThrow<string>(Env.dataBaseType) as any, // need to cast to any because the type is not recognized by TypeORM
     host: configService.getOrThrow<string>(Env.dataBaseHost),
     port: configService.getOrThrow<number>(Env.dataBasePort),
     database: configService.getOrThrow<string>(Env.database),

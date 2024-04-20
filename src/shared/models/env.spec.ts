@@ -5,7 +5,7 @@ describe('Env', () => {
     expect(Env.appStage).toBe('STAGE');
     expect(Env.appPort).toBe('PORT');
     expect(Env.appHost).toBe('HOST');
-    expect(Env.dataBaseType).toBe('postgres');
+    expect(Env.dataBaseType).toBe('DB_TYPE');
     expect(Env.dataBaseHost).toBe('DB_HOST');
     expect(Env.dataBasePort).toBe('DB_PORT');
     expect(Env.dataBaseUsername).toBe('DB_USERNAME');

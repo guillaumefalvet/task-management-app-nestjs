@@ -8,6 +8,7 @@ import {
   HTTPS_PROTOCOL,
   HTTP_PROTOCOL,
 } from 'src/shared/constants/constant-network';
+import { DatabaseTypeEnum } from 'src/shared/models/databaseType.enum';
 
 /**
  * Represents the validation schema for the application env.
@@ -19,6 +20,9 @@ export const envFileValidationSchema = Joi.object({
   [Env.appHttpProtocol]: Joi.string()
     .valid(HTTPS_PROTOCOL, HTTP_PROTOCOL)
     .required(),
+  [Env.dataBaseType]: Joi.string()
+    .required()
+    .valid(...Object.values(DatabaseTypeEnum)),
   [Env.dataBaseHost]: Joi.string().required(),
   [Env.dataBasePort]: Joi.number().default(5432).required(),
   [Env.dataBaseUsername]: Joi.string().default(Env.dataBaseType).required(),
