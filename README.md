@@ -36,6 +36,9 @@ This is a simple Task Management App built with NestJS, a powerful Node.js frame
 - User registration and login.
 - JSON Web Tokens (JWT) for user sessions.
 - RESTful API with Swagger documentation.
+- WebSocket API with AsyncAPI documentation.
+- Database migrations to manage changes to your database schema over time. You can create, run, and revert migrations.
+- Database seeding to populate initial data.
 - Minimalistic and easy-to-understand codebase, perfect for learning.
 
 ### Setup
