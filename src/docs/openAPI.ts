@@ -4,8 +4,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerTheme } from 'swagger-themes';
 
 // - Models - //
+import { ApiDocsUrlEnum } from 'src/shared/models/routes';
 import { EnvEnum } from 'src/shared/models/env';
-import { apiDocsUrlEnum } from 'src/shared/models/routes';
 
 export class OpenAPIDocumentationBuilder {
   private _logger!: Logger;
@@ -29,7 +29,7 @@ export class OpenAPIDocumentationBuilder {
         .setVersion('1.0')
         .setExternalDoc(
           'Find out about the websocket part of the API',
-          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrlEnum.webSocket}`,
+          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.webSocket}`,
         )
         .addTag('tasks')
         .addTag('auth')
@@ -51,9 +51,9 @@ export class OpenAPIDocumentationBuilder {
       explorer: true,
       customCss: theme.getBuffer('dark'),
     };
-    SwaggerModule.setup(apiDocsUrlEnum.rest, this.app, document, options);
+    SwaggerModule.setup(ApiDocsUrlEnum.rest, this.app, document, options);
     this._logger.log(
-      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrlEnum.rest}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.rest}`,
     );
   }
 }
