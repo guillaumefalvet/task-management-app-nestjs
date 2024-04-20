@@ -17,7 +17,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 // - Models - //
-import { TaskStatus } from '../../shared/models/task-status';
+import { TaskStatusEnum } from '../../shared/models/task-status';
 
 @Injectable()
 export class TaskRepository {
@@ -45,7 +45,7 @@ export class TaskRepository {
     const task = this._taskEntityRepository.create({
       title,
       description,
-      status: TaskStatus.OPEN,
+      status: TaskStatusEnum.OPEN,
       user,
     });
     const taskCreated = await this._taskEntityRepository.save(task);
@@ -102,7 +102,7 @@ export class TaskRepository {
 
   async updateTaskStatus(
     id: string,
-    status: TaskStatus,
+    status: TaskStatusEnum,
     user: User,
   ): Promise<Task> {
     const task = await this.findById(id, user);

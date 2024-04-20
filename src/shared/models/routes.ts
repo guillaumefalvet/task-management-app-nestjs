@@ -1,6 +1,6 @@
 import { TASK_ID_PARAM } from '../constants/constant-params';
 
-export enum taskUrl {
+export enum taskUrlEnum {
   base = 'tasks',
   getTasks = '/',
   getTaskById = `/${TASK_ID_PARAM}`,
@@ -9,14 +9,14 @@ export enum taskUrl {
   updateTaskStatus = `/${TASK_ID_PARAM}/status`,
 }
 
-export enum authUrl {
+export enum authUrlEnum {
   base = 'auth',
   createAccount = '/create-account',
   login = '/login',
   refreshAuthToken = '/refresh-token',
 }
 
-export enum apiDocsUrl {
+export enum apiDocsUrlEnum {
   rest = 'openapi-docs',
   webSocket = 'asyncapi-docs',
 }

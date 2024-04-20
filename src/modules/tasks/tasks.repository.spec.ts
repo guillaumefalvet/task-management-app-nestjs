@@ -16,7 +16,7 @@ import { TaskRepository } from './tasks.repository';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 // - Models - //
-import { TaskStatus } from '../../shared/models/task-status';
+import { TaskStatusEnum } from '../../shared/models/task-status';
 
 describe('TaskRepository', () => {
   let taskRepository: TaskRepository;
@@ -40,7 +40,7 @@ describe('TaskRepository', () => {
         id: '1',
         title: 'Task 1',
         description: 'Description of Task 1',
-        status: TaskStatus.OPEN,
+        status: TaskStatusEnum.OPEN,
         user: mockUser,
       };
       taskEntityRepository.findOne = jest.fn().mockResolvedValue(mockTask);
@@ -85,7 +85,7 @@ describe('TaskRepository', () => {
       const mockTask: Task = {
         id: '1',
         ...createTaskDto,
-        status: TaskStatus.OPEN,
+        status: TaskStatusEnum.OPEN,
         user: mockUser,
       };
       taskEntityRepository.create = jest.fn().mockReturnValue(mockTask);
@@ -176,10 +176,10 @@ describe('TaskRepository', () => {
         id: '1',
         title: 'Task 1',
         description: 'Description of Task 1',
-        status: TaskStatus.OPEN,
+        status: TaskStatusEnum.OPEN,
         user: mockUser,
       };
-      const updatedStatus = TaskStatus.IN_PROGRESS;
+      const updatedStatus = TaskStatusEnum.IN_PROGRESS;
       taskRepository.findById = jest.fn().mockResolvedValue(mockTask);
       taskEntityRepository.save = jest
         .fn()
@@ -205,7 +205,11 @@ describe('TaskRepository', () => {
       taskRepository.findById = jest.fn().mockResolvedValue(undefined);
 
       await expect(
-        taskRepository.updateTaskStatus('1', TaskStatus.IN_PROGRESS, mockUser),
+        taskRepository.updateTaskStatus(
+          '1',
+          TaskStatusEnum.IN_PROGRESS,
+          mockUser,
+        ),
       ).rejects.toThrowError(
         new InternalServerErrorException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,

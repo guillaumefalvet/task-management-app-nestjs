@@ -1,21 +1,21 @@
 import { TASK_ID_PARAM } from '../constants/constant-params';
-import { authUrl, taskUrl } from './routes';
+import { authUrlEnum, taskUrlEnum } from './routes';
 
 describe('taskRoute', () => {
   it('should have the correct values', () => {
-    expect(taskUrl.base).toBe('tasks');
-    expect(taskUrl.getTasks).toBe('/');
-    expect(taskUrl.getTaskById).toBe(`/${TASK_ID_PARAM}`);
-    expect(taskUrl.createTask).toBe('/');
-    expect(taskUrl.deleteTask).toBe(`/${TASK_ID_PARAM}`);
-    expect(taskUrl.updateTaskStatus).toBe(`/${TASK_ID_PARAM}/status`);
+    expect(taskUrlEnum.base).toBe('tasks');
+    expect(taskUrlEnum.getTasks).toBe('/');
+    expect(taskUrlEnum.getTaskById).toBe(`/${TASK_ID_PARAM}`);
+    expect(taskUrlEnum.createTask).toBe('/');
+    expect(taskUrlEnum.deleteTask).toBe(`/${TASK_ID_PARAM}`);
+    expect(taskUrlEnum.updateTaskStatus).toBe(`/${TASK_ID_PARAM}/status`);
   });
 });
 describe('authRoute', () => {
   it('should have the correct values', () => {
-    expect(authUrl.base).toBe('auth');
-    expect(authUrl.createAccount).toBe('/create-account');
-    expect(authUrl.login).toBe('/login');
-    expect(authUrl.refreshAuthToken).toBe('/refresh-token');
+    expect(authUrlEnum.base).toBe('auth');
+    expect(authUrlEnum.createAccount).toBe('/create-account');
+    expect(authUrlEnum.login).toBe('/login');
+    expect(authUrlEnum.refreshAuthToken).toBe('/refresh-token');
   });
 });

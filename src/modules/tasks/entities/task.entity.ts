@@ -5,7 +5,7 @@ import { Exclude } from 'class-transformer';
 import { User } from '../../auth/entities/user.entity';
 
 // - Models - //
-import { TaskStatus } from '../../../shared/models/task-status';
+import { TaskStatusEnum } from '../../../shared/models/task-status';
 
 @Entity()
 export class Task {
@@ -19,7 +19,7 @@ export class Task {
   description: string;
 
   @Column({ type: 'varchar', length: 30 })
-  status: TaskStatus;
+  status: TaskStatusEnum;
 
   @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })
   @Exclude({ toPlainOnly: true })

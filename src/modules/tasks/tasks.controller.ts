@@ -27,19 +27,19 @@ import { User } from 'src/modules/auth/entities/user.entity';
 
 // - Decorators - //
 import { GetUser } from 'src/modules/auth/get-user.decorator';
-import { taskUrl } from 'src/shared/models/routes';
+import { taskUrlEnum } from 'src/shared/models/routes';
 
 // - Constants - //
 import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
-@Controller(taskUrl.base)
-@ApiTags(taskUrl.base)
+@Controller(taskUrlEnum.base)
+@ApiTags(taskUrlEnum.base)
 @ApiBearerAuth('JWT-auth')
 @UseGuards(AuthGuard())
 export class TasksController {
   private _logger = new Logger('TasksController');
   constructor(private _tasksService: TasksService) {}
-  @Get(taskUrl.getTasks)
+  @Get(taskUrlEnum.getTasks)
   getTasks(
     @Query() filterDto: GetTasksFilterDto,
     @GetUser() user: User,
@@ -52,7 +52,7 @@ export class TasksController {
     return this._tasksService.getTasks(filterDto, user);
   }
 
-  @Get(taskUrl.getTaskById)
+  @Get(taskUrlEnum.getTaskById)
   getTaskById(
     @Param(TASK_ID_PARAM) id: string,
     @GetUser() user: User,
@@ -60,7 +60,7 @@ export class TasksController {
     return this._tasksService.getTaskById(id, user);
   }
 
-  @Post(taskUrl.createTask)
+  @Post(taskUrlEnum.createTask)
   createTask(
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
@@ -73,7 +73,7 @@ export class TasksController {
     return this._tasksService.createTask(createTaskDto, user);
   }
 
-  @Delete(taskUrl.deleteTask)
+  @Delete(taskUrlEnum.deleteTask)
   deleteTask(
     @Param(TASK_ID_PARAM) id: string,
     @GetUser() user: User,
@@ -84,7 +84,7 @@ export class TasksController {
     return this._tasksService.deleteTask(id, user);
   }
 
-  @Patch(taskUrl.updateTaskStatus)
+  @Patch(taskUrlEnum.updateTaskStatus)
   updateTaskStatus(
     @Param(TASK_ID_PARAM) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { AsyncApiDocumentBuilder, AsyncApiModule } from 'nestjs-asyncapi';
 
 // - Models - //
-import { apiDocsUrl } from 'src/shared/models/routes';
+import { apiDocsUrlEnum } from 'src/shared/models/routes';
 import { EnvEnum } from 'src/shared/models/env';
 
 export class AsyncApiDocumentationBuilder {
@@ -28,7 +28,7 @@ export class AsyncApiDocumentationBuilder {
         .setVersion('1.0')
         .setExternalDoc(
           'Find out about the REST API part of the API',
-          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.rest}`,
+          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrlEnum.rest}`,
         )
         .setDefaultContentType('application/json')
         .addSecurity('user-password', { type: 'userPassword' })
@@ -39,9 +39,9 @@ export class AsyncApiDocumentationBuilder {
         .build(),
     );
 
-    await AsyncApiModule.setup(apiDocsUrl.webSocket, this._app, document);
+    await AsyncApiModule.setup(apiDocsUrlEnum.webSocket, this._app, document);
     this._logger.log(
-      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrl.webSocket}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${apiDocsUrlEnum.webSocket}`,
     );
   }
 }

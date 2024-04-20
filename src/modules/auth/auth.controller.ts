@@ -9,24 +9,24 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { AuthService } from './auth.service';
 
 // - Models - //
-import { authUrl } from 'src/shared/models/routes';
+import { authUrlEnum } from 'src/shared/models/routes';
 
-@Controller(authUrl.base)
-@ApiTags(authUrl.base)
+@Controller(authUrlEnum.base)
+@ApiTags(authUrlEnum.base)
 export class AuthController {
   constructor(private _authService: AuthService) {}
 
-  @Post(authUrl.createAccount)
+  @Post(authUrlEnum.createAccount)
   signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<any> {
     return this._authService.signUp(authCredentialsDto);
   }
 
-  @Post(authUrl.login)
+  @Post(authUrlEnum.login)
   signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<any> {
     return this._authService.signIn(authCredentialsDto);
   }
   @ApiBearerAuth('JWT-auth')
-  @Post(authUrl.refreshAuthToken)
+  @Post(authUrlEnum.refreshAuthToken)
   refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
     @Req() request: Request,
