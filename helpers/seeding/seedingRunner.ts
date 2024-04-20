@@ -13,16 +13,16 @@ import { Task } from 'src/modules/tasks/entities/task.entity';
 import { seedingEntryPoint } from 'src/database/seeds';
 
 config();
-const configService = new ConfigService();
+const env = new ConfigService();
 // This file is used for seeding
 (async () => {
   const options: DataSourceOptions & SeederOptions = {
-    type: configService.getOrThrow<string>(EnvEnum.dataBaseType) as any, // need to cast to any because the type is not recognized by TypeORM
-    host: configService.getOrThrow<string>(EnvEnum.dataBaseHost),
-    port: configService.getOrThrow<number>(EnvEnum.dataBasePort),
-    database: configService.getOrThrow<string>(EnvEnum.database),
-    username: configService.getOrThrow<string>(EnvEnum.dataBaseUsername),
-    password: configService.getOrThrow<string>(EnvEnum.dataBasePassword),
+    type: env.getOrThrow<string>(EnvEnum.dataBaseType) as any, // need to cast to any because the type is not recognized by TypeORM
+    host: env.getOrThrow<string>(EnvEnum.dataBaseHost),
+    port: env.getOrThrow<number>(EnvEnum.dataBasePort),
+    database: env.getOrThrow<string>(EnvEnum.database),
+    username: env.getOrThrow<string>(EnvEnum.dataBaseUsername),
+    password: env.getOrThrow<string>(EnvEnum.dataBasePassword),
     entities: [User, Task],
     seeds: seedingEntryPoint,
     factories: [join(__dirname, '/../database/factories/*{.ts,.js}')],
