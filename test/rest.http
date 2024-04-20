@@ -1,0 +1,70 @@
+@port = 3000
+@host = localhost
+@protocol = http
+@endpoint = {{ protocol }}://{{ host }}:{{ port }}
+@accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+@id = {{createTask.response.body.id}}
+
+#### AUTHENTICATION
+### Create Account
+POST {{ endpoint }}/auth/create-account
+content-type: application/json
+
+{
+    "username": "http@gui.com",
+    "password": "asAz89saas&!çç2)$"
+}
+
+### Login
+# @name login
+POST {{ endpoint }}/auth/login
+content-type: application/json
+
+{
+    "username": "http@gui.com",
+    "password": "asAz89saas&!çç2)$"
+}
+
+### Refresh Token
+# @name login
+POST {{endpoint}}/auth/refresh-token
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "refreshToken": "{{refreshToken}}"
+}
+
+#### TASKS
+### getAllTasks
+GET {{ endpoint }}/tasks
+Authorization: Bearer {{accessToken}}
+
+### getAllTasksgetTasksWithFilters
+GET {{ endpoint }}/tasks?status=IN_PROGRESS
+Authorization: Bearer {{accessToken}}
+
+### getTaskById
+GET {{ endpoint }}/tasks/{{id}}
+Authorization: Bearer {{accessToken}}
+
+### createTask
+# @name createTask
+POST {{ endpoint }}/tasks
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+title=Clean My Room&description=lots of stuff to do
+
+### updateTask
+PATCH {{ endpoint }}/tasks/{{id}}/status
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+status=DONE
+
+
+### deleteTask
+DELETE  {{ endpoint }}/tasks/{{id}}
+Authorization: Bearer {{accessToken}}
