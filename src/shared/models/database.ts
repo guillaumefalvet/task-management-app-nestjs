@@ -1,4 +1,4 @@
-export enum DatabaseTypeEnum {
+export enum DatabaseTypesEnum {
   MySQL = 'mysql',
   Postgres = 'postgres',
   CockroachDB = 'cockroachdb',

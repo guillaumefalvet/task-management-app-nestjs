@@ -2,7 +2,7 @@ import * as Joi from '@hapi/joi';
 
 // - Models - //
 import { EnvEnum } from 'src/shared/models/env';
-import { DatabaseTypeEnum } from 'src/shared/models/database';
+import { DatabaseTypesEnum } from 'src/shared/models/database';
 
 // - Constants - //
 import {
@@ -27,7 +27,7 @@ export const envFileValidationSchema = Joi.object({
   [EnvEnum.jwtRefreshTokenExpiration]: Joi.string().required(),
   // - Database - //
   [EnvEnum.dataBaseType]: Joi.string()
-    .valid(...Object.values(DatabaseTypeEnum))
+    .valid(...Object.values(DatabaseTypesEnum))
     .required(),
   [EnvEnum.dataBaseHost]: Joi.string().required(),
   [EnvEnum.dataBasePort]: Joi.number().default(5432).required(),

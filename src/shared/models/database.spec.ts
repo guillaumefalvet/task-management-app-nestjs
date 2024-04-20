@@ -1,25 +1,25 @@
-import { DatabaseTypeEnum } from './dataBase';
+import { DatabaseTypesEnum } from './dataBase';
 
 describe('DatabaseType', () => {
   it('should have the correct values', () => {
-    expect(DatabaseTypeEnum.MySQL).toEqual('mysql');
-    expect(DatabaseTypeEnum.Postgres).toEqual('postgres');
-    expect(DatabaseTypeEnum.CockroachDB).toEqual('cockroachdb');
-    expect(DatabaseTypeEnum.SAP).toEqual('sap');
-    expect(DatabaseTypeEnum.MariaDB).toEqual('mariadb');
-    expect(DatabaseTypeEnum.SQLite).toEqual('sqlite');
-    expect(DatabaseTypeEnum.Cordova).toEqual('cordova');
-    expect(DatabaseTypeEnum.ReactNative).toEqual('react-native');
-    expect(DatabaseTypeEnum.NativeScript).toEqual('nativescript');
-    expect(DatabaseTypeEnum.SQLJS).toEqual('sqljs');
-    expect(DatabaseTypeEnum.Oracle).toEqual('oracle');
-    expect(DatabaseTypeEnum.MSSQL).toEqual('mssql');
-    expect(DatabaseTypeEnum.MongoDB).toEqual('mongodb');
-    expect(DatabaseTypeEnum.AuroraMySQL).toEqual('aurora-mysql');
-    expect(DatabaseTypeEnum.AuroraPostgres).toEqual('aurora-postgres');
-    expect(DatabaseTypeEnum.Expo).toEqual('expo');
-    expect(DatabaseTypeEnum.BetterSQLite3).toEqual('better-sqlite3');
-    expect(DatabaseTypeEnum.Capacitor).toEqual('capacitor');
-    expect(DatabaseTypeEnum.Spanner).toEqual('spanner');
+    expect(DatabaseTypesEnum.MySQL).toEqual('mysql');
+    expect(DatabaseTypesEnum.Postgres).toEqual('postgres');
+    expect(DatabaseTypesEnum.CockroachDB).toEqual('cockroachdb');
+    expect(DatabaseTypesEnum.SAP).toEqual('sap');
+    expect(DatabaseTypesEnum.MariaDB).toEqual('mariadb');
+    expect(DatabaseTypesEnum.SQLite).toEqual('sqlite');
+    expect(DatabaseTypesEnum.Cordova).toEqual('cordova');
+    expect(DatabaseTypesEnum.ReactNative).toEqual('react-native');
+    expect(DatabaseTypesEnum.NativeScript).toEqual('nativescript');
+    expect(DatabaseTypesEnum.SQLJS).toEqual('sqljs');
+    expect(DatabaseTypesEnum.Oracle).toEqual('oracle');
+    expect(DatabaseTypesEnum.MSSQL).toEqual('mssql');
+    expect(DatabaseTypesEnum.MongoDB).toEqual('mongodb');
+    expect(DatabaseTypesEnum.AuroraMySQL).toEqual('aurora-mysql');
+    expect(DatabaseTypesEnum.AuroraPostgres).toEqual('aurora-postgres');
+    expect(DatabaseTypesEnum.Expo).toEqual('expo');
+    expect(DatabaseTypesEnum.BetterSQLite3).toEqual('better-sqlite3');
+    expect(DatabaseTypesEnum.Capacitor).toEqual('capacitor');
+    expect(DatabaseTypesEnum.Spanner).toEqual('spanner');
   });
 });
