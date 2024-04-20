@@ -2,7 +2,10 @@ export enum Env {
   appStage = 'STAGE',
   appPort = 'PORT',
   appHost = 'HOST',
+  appHttpProtocol = 'HTTP_PROTOCOL',
+  // TODO: add in the env file
   dataBaseType = 'postgres',
+  // TODO: END
   dataBaseHost = 'DB_HOST',
   dataBasePort = 'DB_PORT',
   dataBaseUsername = 'DB_USERNAME',
