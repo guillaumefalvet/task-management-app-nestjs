@@ -1,4 +1,7 @@
-dist
 node_modules
+helpers
 .git
+test
+.vscode
 **/*.spec.*
+rest.http
