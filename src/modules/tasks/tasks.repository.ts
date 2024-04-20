@@ -21,7 +21,7 @@ import { TaskStatusEnum } from '../../shared/models/task-status';
 
 @Injectable()
 export class TaskRepository {
-  private _logger = new Logger('TasksRepository', { timestamp: true });
+  private _logger = new Logger(TaskRepository.name, { timestamp: true });
   constructor(
     @InjectRepository(Task)
     private readonly _taskEntityRepository: Repository<Task>,
@@ -91,7 +91,6 @@ export class TaskRepository {
 
   async deleteById(id: string, user: User): Promise<void> {
     const result = await this._taskEntityRepository.delete({ id, user });
-
     if (result.affected === 0) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,

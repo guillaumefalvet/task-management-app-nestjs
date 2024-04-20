@@ -22,12 +22,9 @@ import { EnvEnum } from 'src/shared/models/env';
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private usersRepository: UsersRepository,
-    private configService: ConfigService,
-  ) {
+  constructor(private usersRepository: UsersRepository, env: ConfigService) {
     super({
-      secretOrKey: configService.get(EnvEnum.jwtAccessTokenSecret),
+      secretOrKey: env.getOrThrow<string>(EnvEnum.jwtAccessTokenSecret),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

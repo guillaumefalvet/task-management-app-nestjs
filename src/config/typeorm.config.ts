@@ -7,14 +7,14 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { EnvEnum } from 'src/shared/models/env';
 
 config();
-const configService = new ConfigService();
+const env = new ConfigService();
 export const options: DataSourceOptions = {
-  type: configService.getOrThrow<string>(EnvEnum.dataBaseType) as any, // need to cast to any because the type is not recognized by TypeORM
-  host: configService.getOrThrow<string>(EnvEnum.dataBaseHost),
-  port: configService.getOrThrow<number>(EnvEnum.dataBasePort),
-  database: configService.getOrThrow<string>(EnvEnum.database),
-  username: configService.getOrThrow<string>(EnvEnum.dataBaseUsername),
-  password: configService.getOrThrow<string>(EnvEnum.dataBasePassword),
+  type: env.getOrThrow<string>(EnvEnum.dataBaseType) as any, // need to cast to any because the type is not recognized by TypeORM
+  host: env.getOrThrow<string>(EnvEnum.dataBaseHost),
+  port: env.getOrThrow<number>(EnvEnum.dataBasePort),
+  database: env.getOrThrow<string>(EnvEnum.database),
+  username: env.getOrThrow<string>(EnvEnum.dataBaseUsername),
+  password: env.getOrThrow<string>(EnvEnum.dataBasePassword),
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
 };

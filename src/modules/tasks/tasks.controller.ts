@@ -39,7 +39,7 @@ import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 @ApiBearerAuth('JWT-auth')
 @UseGuards(AuthGuard())
 export class TasksController {
-  private _logger = new Logger('TasksController');
+  private _logger = new Logger(TasksController.name);
   constructor(private _tasksService: TasksService) {}
   @Get(TaskUrlEnum.getTasks)
   getTasks(

@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { DecodeOptions } from 'jsonwebtoken';
 
 // - Entities - //
 import { User } from './entities/user.entity';
@@ -29,7 +30,7 @@ export class UsersRepository {
   constructor(
     @InjectRepository(User)
     private readonly _userEntityRepository: Repository<User>,
-    private _configService: ConfigService,
+    private _env: ConfigService,
     private _jwtService: JwtService,
   ) {}
   async findOne(username): Promise<User> {
@@ -81,7 +82,7 @@ export class UsersRepository {
           type: 'access',
         },
         {
-          secret: this._configService.get(EnvEnum.jwtAccessTokenSecret),
+          secret: this._env.getOrThrow<string>(EnvEnum.jwtAccessTokenSecret),
         },
       ),
       this._jwtService.signAsync(
@@ -90,8 +91,10 @@ export class UsersRepository {
           type: 'refresh',
         },
         {
-          secret: this._configService.get(EnvEnum.jwtRefreshTokenSecret),
-          expiresIn: this._configService.get(EnvEnum.jwtRefreshTokenExpiration),
+          secret: this._env.getOrThrow<string>(EnvEnum.jwtRefreshTokenSecret),
+          expiresIn: this._env.getOrThrow<string>(
+            EnvEnum.jwtRefreshTokenExpiration,
+          ),
         },
       ),
     ]);
@@ -102,9 +105,9 @@ export class UsersRepository {
     };
   }
   async verifyRefreshToken(refreshToken: string): Promise<any> {
-    const verifyRefreshToken = await this._jwtService.decode(
+    const verifyRefreshToken = this._jwtService.decode(
       refreshToken,
-      this._configService.get(EnvEnum.jwtRefreshTokenSecret),
+      this._env.getOrThrow<DecodeOptions>(EnvEnum.jwtRefreshTokenSecret),
     );
 
     if (!verifyRefreshToken) {
@@ -119,7 +122,7 @@ export class UsersRepository {
   async verifyAccessToken(accessToken: string): Promise<JwtPayload> {
     return await this._jwtService.verify(accessToken, {
       ignoreExpiration: true,
-      secret: this._configService.get(EnvEnum.jwtAccessTokenSecret),
+      secret: this._env.getOrThrow<string>(EnvEnum.jwtAccessTokenSecret),
     });
   }
 

@@ -7,11 +7,11 @@ import { EnvEnum } from 'src/shared/models/env';
 export const jwtAsyncConfig: JwtModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
-  useFactory: async (configService: ConfigService) => {
+  useFactory: async (env: ConfigService) => {
     return {
-      secret: configService.get(EnvEnum.jwtAccessTokenSecret),
+      secret: env.getOrThrow<string>(EnvEnum.jwtAccessTokenSecret),
       signOptions: {
-        expiresIn: configService.get(EnvEnum.jwtAccessTokenExpiration),
+        expiresIn: env.getOrThrow<string>(EnvEnum.jwtAccessTokenExpiration),
       },
     };
   },
