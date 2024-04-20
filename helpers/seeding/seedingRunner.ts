@@ -8,7 +8,10 @@ import { SeederOptions, runSeeders } from 'typeorm-extension';
 import { Env } from 'src/shared/models/env';
 import { User } from 'src/modules/auth/entities/user.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
+
+// - Seeds - //
 import { seedingEntryPoint } from 'src/database/seeds';
+
 config();
 const configService = new ConfigService();
 // This file is used for seeding
