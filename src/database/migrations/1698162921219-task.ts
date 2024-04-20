@@ -7,5 +7,7 @@ export class Task1698162921219 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query("DELETE FROM task WHERE title = 'migrations test'");
+  }
 }
