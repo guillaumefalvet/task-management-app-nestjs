@@ -22,7 +22,7 @@
     "typeorm:run-migrations": "STAGE=dev npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
     "typeorm:revert-migrations": "STAGE=dev npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
     "seed:run": "npx tsx ./helpers/seeding/seedingRunner.ts",
-    "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name && tsx ./helpers/seeding/updateSeedingList.ts && npx prettier ./src/database/seeds/ --write",
+    "seed:create": "npx typeorm-extension seed:create --name ./src/database/seeds/$npm_config_name && tsx ./helpers/seeding/seedingCreator.ts && npx prettier ./src/database/seeds/ --write",
     "prepare": "husky",
     "generateEnv": "ts-node ./helpers/env/generateEnvFile.ts"
   },
