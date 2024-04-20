@@ -6,7 +6,7 @@
 @refreshToken = {{login.response.body.refreshToken}}
 @id = {{createTask.response.body.id}}
 
-#### AUTHENTICATION
+#### --------------AUTH--------------
 ### Create Account
 POST {{ endpoint }}/auth/create-account
 content-type: application/json
@@ -36,7 +36,7 @@ Authorization: Bearer {{accessToken}}
     "refreshToken": "{{refreshToken}}"
 }
 
-#### TASKS
+#### --------------TASKS--------------
 ### getAllTasks
 GET {{ endpoint }}/tasks
 Authorization: Bearer {{accessToken}}
