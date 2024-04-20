@@ -27,6 +27,7 @@ const configService = new ConfigService();
     seeds: seedingEntryPoint,
     factories: [join(__dirname, '/../database/factories/*{.ts,.js}')],
     logging: true,
+    seedTracking: true,
   };
 
   const dataSource = new DataSource(options);
