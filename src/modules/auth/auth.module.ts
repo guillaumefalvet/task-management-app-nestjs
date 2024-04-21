@@ -6,7 +6,6 @@ import { ConfigModule } from '@nestjs/config';
 
 // - Entities - //
 import { User } from './entities/user.entity';
-import { UsersRepository } from './users.repository';
 
 // - Controllers - //
 import { AuthController } from './auth.controller';
@@ -27,7 +26,7 @@ import { jwtAsyncConfig } from 'src/config/jwt.config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtAsyncConfig),
   ],
-  providers: [AuthService, UsersRepository, AccessTokenStrategy],
+  providers: [AuthService, AccessTokenStrategy],
   controllers: [AuthController],
   exports: [AccessTokenStrategy, PassportModule],
 })
