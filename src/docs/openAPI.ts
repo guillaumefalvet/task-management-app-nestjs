@@ -35,7 +35,7 @@ export class OpenAPIDocumentationBuilder {
         .addTag('auth')
         .addBearerAuth(
           {
-            type: 'http',
+            type: this._HTTP_PROTOCOL as any,
             scheme: 'bearer',
             bearerFormat: 'JWT',
             name: 'JWT',
