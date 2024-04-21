@@ -129,7 +129,7 @@ export class AuthService {
       }
     }
   }
-
+  // PRIVATE FUNCTIONS
   /**
    * Updates the refresh token for a user.
    * @param username - The username.
