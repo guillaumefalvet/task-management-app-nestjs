@@ -1,7 +1,7 @@
 @port = {{$dotenv PORT}}
 @host = {{$dotenv HOST}}
 @protocol = {{$dotenv HTTP_PROTOCOL}}
-@endpoint = {{protocol}}://{{host}}:{{port}}
+@endpoint = {{protocol}}://{{host}}:{{port}}/api
 @accessToken = {{login.response.body.accessToken}}
 @refreshToken = {{login.response.body.refreshToken}}
 @id = {{createTask.response.body.id}}
