@@ -7,9 +7,6 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 // - Entities - //
 import { Task } from './entities/task.entity';
 
-// - Repositories - //
-import { TaskRepository } from './tasks.repository';
-
 // - Controllers - //
 import { TasksController } from './tasks.controller';
 
@@ -19,6 +16,6 @@ import { TasksService } from './tasks.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Task]), AuthModule],
   controllers: [TasksController],
-  providers: [TasksService, TaskRepository],
+  providers: [TasksService],
 })
 export class TasksModule {}
