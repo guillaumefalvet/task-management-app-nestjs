@@ -42,16 +42,16 @@ export class AuthService {
    * @param authCredentialsDto - The authentication credentials DTO.
    * @returns A promise resolving to JWT tokens upon successful registration.
    */
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<any> {
+  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     return this._createUser(authCredentialsDto);
   }
   /**
    * Authenticates a user.
    * @param authCredentialsDto - The authentication credentials DTO.
-   * @returns A promise resolving to JWT tokens upon successful authentication.
-   * @throws `UnauthorizedException` if the provided credentials are invalid.
+   * @returns { Promise<JwtTokens> } - A promise resolving to JWT tokens upon successful authentication.
+   * @throws { UnauthorizedException } - If the provided credentials are invalid.
    */
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<any> {
+  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<JwtTokens> {
     const { username, password } = authCredentialsDto;
     const user = await this._userEntityRepository.findOneBy({ username });
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -65,13 +65,15 @@ export class AuthService {
    * Refreshes the access token.
    * @param refreshTokenDto - The refresh token DTO.
    * @param request - The request object.
-   * @returns A promise resolving to new JWT tokens upon successful token refresh.
-   * @throws `UnauthorizedException` if the refresh token is invalid or missing.
+   * @returns { Promise<JwtTokens> } - A promise resolving to new JWT tokens upon successful token refresh.
+   * @throws { UnauthorizedException } - if the authorization header is missing.
+   * @throws { UnauthorizedException } if the invalid authorization header.
+   * @throws { UnauthorizedException } if the invalid refresh token.
    */
   async refreshToken(
     refreshTokenDto: RefreshTokenDto,
     request: Request,
-  ): Promise<any> {
+  ): Promise<JwtTokens> {
     const { refreshToken } = refreshTokenDto;
     if (!request.headers['authorization']) {
       throw new UnauthorizedException({
@@ -104,9 +106,9 @@ export class AuthService {
   /**
    * Creates a new user.
    * @param authCredentialsDto - The authentication credentials DTO.
-   * @returns A promise resolving to JWT tokens upon successful user creation.
-   * @throws `ConflictException` if the username already exists.
-   * @throws `InternalServerErrorException` if an unexpected error occurs during user creation.
+   * @returns { Promise<JwtTokens> } - A promise resolving to JWT tokens upon successful user creation.
+   * @throws { ConflictException } - If the username already exists.
+   * @throws { InternalServerErrorException } - If an unexpected error occurs during user creation.
    */
   private async _createUser(
     authCredentialsDto: AuthCredentialsDto,
@@ -145,7 +147,7 @@ export class AuthService {
    * Updates the refresh token for a user.
    * @param username - The username.
    * @param refreshToken - The new refresh token.
-   * @returns A promise resolving void.
+   * @returns { void } - A promise resolving void.
    */
   private async _updateRefreshToken(
     username,
@@ -160,7 +162,7 @@ export class AuthService {
   /**
    * Generates JWT tokens for a user.
    * @param username - The username.
-   * @returns A promise resolving to JWT tokens.
+   * @returns { Promise<JwtTokens> } - A promise resolving to JWT tokens.
    */
   private async _generateJwtTokens(username: string): Promise<JwtTokens> {
     const [accessToken, refreshToken] = await Promise.all([
@@ -196,7 +198,7 @@ export class AuthService {
    * Verifies the refresh token.
    * @param refreshToken - The refresh token.
    * @returns A promise resolving to the decoded refresh token payload.
-   * @throws `UnauthorizedException` if the refresh token is invalid.
+   * @throws { UnauthorizedException } if the refresh token is invalid.
    */
   private async _verifyRefreshToken(refreshToken: string): Promise<any> {
     const verifyRefreshToken = this._jwtService.decode(
@@ -216,7 +218,7 @@ export class AuthService {
   /**
    * Verifies the access token.
    * @param accessToken - The access token.
-   * @returns A promise resolving to the decoded access token payload.
+   * @returns { Promise<JwtPayload> } - A promise resolving to the decoded access token payload.
    */
   private async _verifyAccessToken(accessToken: string): Promise<JwtPayload> {
     return await this._jwtService.verify(accessToken, {
@@ -227,12 +229,12 @@ export class AuthService {
   /**
    * Retrieves the user from the access token payload.
    * @param accessTokenPayload - The access token payload.
-   * @returns A promise resolving to the user entity.
-   * @throws `UnauthorizedException` if the user is not found.
+   * @returns { Promise<User> }A promise resolving to the user entity.
+   * @throws { UnauthorizedException } if the user is not found.
    */
   private async _getUserFromAccessToken(
     accessTokenPayload: JwtPayload,
-  ): Promise<any> {
+  ): Promise<User> {
     const found = this._userEntityRepository.findOneBy({
       username: accessTokenPayload.username,
     });
