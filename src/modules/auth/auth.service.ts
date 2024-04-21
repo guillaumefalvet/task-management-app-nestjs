@@ -40,10 +40,39 @@ export class AuthService {
   /**
    * Registers a new user.
    * @param authCredentialsDto - The authentication credentials DTO.
-   * @returns A promise resolving to JWT tokens upon successful registration.
+   * @returns { Promise<JwtTokens> } - A promise resolving to JWT tokens upon successful user creation.
+   * @throws { ConflictException } - If the username already exists.
+   * @throws { InternalServerErrorException } - If an unexpected error occurs during user creation.
    */
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    return this._createUser(authCredentialsDto);
+  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<JwtTokens> {
+    const { username, password } = authCredentialsDto;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = this._userEntityRepository.create({
+      username,
+      password: hashedPassword,
+      refreshToken: 'will be updated',
+    });
+    try {
+      await this._userEntityRepository.save(user);
+      // gen token @ update refresh db
+      const getTokens: JwtTokens = await this._generateJwtTokens(username);
+      // return it
+      return getTokens;
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException({
+          statusCode: HttpStatus.CONFLICT,
+          message: 'Username already exists',
+        });
+      } else {
+        throw new InternalServerErrorException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Something went wrong',
+        });
+      }
+    }
   }
   /**
    * Authenticates a user.
@@ -103,45 +132,6 @@ export class AuthService {
     return this._generateJwtTokens(verifyAccessToken.username);
   }
 
-  /**
-   * Creates a new user.
-   * @param authCredentialsDto - The authentication credentials DTO.
-   * @returns { Promise<JwtTokens> } - A promise resolving to JWT tokens upon successful user creation.
-   * @throws { ConflictException } - If the username already exists.
-   * @throws { InternalServerErrorException } - If an unexpected error occurs during user creation.
-   */
-  private async _createUser(
-    authCredentialsDto: AuthCredentialsDto,
-  ): Promise<any> {
-    const { username, password } = authCredentialsDto;
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const user = this._userEntityRepository.create({
-      username,
-      password: hashedPassword,
-      refreshToken: '',
-    });
-    try {
-      await this._userEntityRepository.save(user);
-      // gen token @ update refresh db
-      const getTokens: JwtTokens = await this._generateJwtTokens(username);
-      // return it
-      return getTokens;
-    } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException({
-          statusCode: HttpStatus.CONFLICT,
-          message: 'Username already exists',
-        });
-      } else {
-        throw new InternalServerErrorException({
-          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Something went wrong',
-        });
-      }
-    }
-  }
   // PRIVATE FUNCTIONS
   /**
    * Updates the refresh token for a user.
