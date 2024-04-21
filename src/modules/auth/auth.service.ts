@@ -26,6 +26,9 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 // - Models - //
 import { EnvEnum } from 'src/shared/models/env';
 
+// - Constants - //
+import { JWT_HEADER_BEARER_REGEX } from 'src/shared/constants/constant-regex';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -70,13 +73,21 @@ export class AuthService {
     request: Request,
   ): Promise<any> {
     const { refreshToken } = refreshTokenDto;
-    if (!request.headers || !request.headers['authorization']) {
+    if (!request.headers['authorization']) {
       throw new UnauthorizedException({
         statusCode: HttpStatus.UNAUTHORIZED,
         message: 'Authorization header is missing',
       });
     }
-    const accessToken = request.headers['authorization'].split('Bearer ')[1];
+
+    const authorizationHeader = request.headers['authorization'];
+    if (!authorizationHeader.match(JWT_HEADER_BEARER_REGEX)) {
+      throw new UnauthorizedException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid authorization header',
+      });
+    }
+    const accessToken = authorizationHeader.split('Bearer ')[1];
     await this._verifyRefreshToken(refreshToken);
     const verifyAccessToken = await this._verifyAccessToken(accessToken);
     const databaseUser = await this._getUserFromAccessToken(verifyAccessToken);
