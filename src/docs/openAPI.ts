@@ -4,7 +4,11 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerTheme } from 'swagger-themes';
 
 // - Models - //
-import { ApiDocsUrlEnum } from 'src/shared/models/routes';
+import {
+  ApiDocsUrlEnum,
+  AuthUrlEnum,
+  TaskUrlEnum,
+} from 'src/shared/models/routes';
 import { EnvEnum } from 'src/shared/models/env';
 
 export class OpenAPIDocumentationBuilder {
@@ -31,8 +35,8 @@ export class OpenAPIDocumentationBuilder {
           'Find out about the websocket part of the API',
           `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.webSocket}`,
         )
-        .addTag('tasks')
-        .addTag('auth')
+        .addTag(AuthUrlEnum.base)
+        .addTag(TaskUrlEnum.base)
         .addBearerAuth(
           {
             type: this._HTTP_PROTOCOL as any,
