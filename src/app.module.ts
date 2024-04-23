@@ -10,6 +10,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { envFileValidationSchema } from './config/env.schema';
 import { RouterModule } from '@nestjs/core';
+
+// - Models - //
 import { AuthUrlEnum, TaskUrlEnum } from './shared/models/routes';
 
 @Module({
