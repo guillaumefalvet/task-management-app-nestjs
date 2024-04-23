@@ -7,6 +7,9 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+// - Constants - //
+import { PASSWORD_REGEX } from 'src/shared/constants/constant-regex';
+
 export class AuthCredentialsDto {
   @IsString()
   @MinLength(4)
@@ -17,7 +20,7 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(8)
   @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  @Matches(PASSWORD_REGEX, {
     message: 'password is too weak',
   })
   @ApiProperty({ default: 'asasasAz892)$' })
