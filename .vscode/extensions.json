@@ -1,3 +1,6 @@
 {
-  "recommendations": ["humao.rest-client"]
+  "recommendations": [
+    "humao.rest-client",
+    "martin-vana.vscode-extension-green-socket-io"
+  ]
 }
