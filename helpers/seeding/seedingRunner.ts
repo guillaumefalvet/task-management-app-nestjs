@@ -6,6 +6,8 @@ import { SeederOptions, runSeeders } from 'typeorm-extension';
 
 // - Models - //
 import { EnvEnum } from 'src/shared/models/env';
+
+// - Entities - //
 import { User } from 'src/modules/auth/entities/user.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
 
