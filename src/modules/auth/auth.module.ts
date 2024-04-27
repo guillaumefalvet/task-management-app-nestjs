@@ -15,9 +15,16 @@ import { AuthService } from './auth.service';
 
 // - Strategies - //
 import { AccessTokenStrategy } from './accessToken.strategy';
+import { WsJwtStrategy } from './webSocket.strategy';
 
 // - Configs - //
 import { jwtAsyncConfig } from 'src/config/jwt.config';
+
+// - Gateways - //
+import { AuthGateway } from './auth.gateway';
+
+// - Guards - //
+import { WsAuthGuard } from './ws-auth.guard';
 
 @Module({
   imports: [
@@ -26,8 +33,14 @@ import { jwtAsyncConfig } from 'src/config/jwt.config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtAsyncConfig),
   ],
-  providers: [AuthService, AccessTokenStrategy],
+  providers: [
+    AuthService,
+    AccessTokenStrategy,
+    AuthGateway,
+    WsJwtStrategy,
+    WsAuthGuard,
+  ],
   controllers: [AuthController],
-  exports: [AccessTokenStrategy, PassportModule],
+  exports: [AccessTokenStrategy, PassportModule, WsAuthGuard, TypeOrmModule],
 })
 export class AuthModule {}
