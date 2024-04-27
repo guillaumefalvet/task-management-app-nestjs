@@ -34,7 +34,7 @@ import { TaskUrlEnum } from 'src/shared/models/routes';
 // - Constants - //
 import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
-@Controller()
+@Controller(TaskUrlEnum.base)
 @ApiTags(TaskUrlEnum.base)
 @ApiBearerAuth('JWT-auth')
 @UseGuards(AuthGuard())

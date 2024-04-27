@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 // - Models - //
 import { AuthUrlEnum } from 'src/shared/models/routes';
 
-@Controller()
+@Controller(AuthUrlEnum.base)
 @ApiTags(AuthUrlEnum.base)
 export class AuthController {
   constructor(private _authService: AuthService) {}

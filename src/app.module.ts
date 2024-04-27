@@ -9,10 +9,6 @@ import { AuthModule } from './modules/auth/auth.module';
 // - Config - //
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { envFileValidationSchema } from './config/env.schema';
-import { RouterModule } from '@nestjs/core';
-
-// - Models - //
-import { AuthUrlEnum, TaskUrlEnum } from './shared/models/routes';
 
 @Module({
   imports: [
@@ -24,21 +20,6 @@ import { AuthUrlEnum, TaskUrlEnum } from './shared/models/routes';
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     TasksModule,
     AuthModule,
-    RouterModule.register([
-      {
-        path: 'api',
-        children: [
-          {
-            path: AuthUrlEnum.base,
-            module: AuthModule,
-          },
-          {
-            path: TaskUrlEnum.base,
-            module: TasksModule,
-          },
-        ],
-      },
-    ]),
   ],
 })
 export class AppModule {}
