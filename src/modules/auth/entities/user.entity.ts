@@ -1,7 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 // - Entities - //
-import { Task } from '../../tasks/entities/task.entity';
+import { Task } from 'src/modules/tasks/entities/task.entity';
+import { Role } from 'src/shared/models/role.enum';
 
 @Entity()
 export class User {
@@ -19,4 +20,7 @@ export class User {
 
   @OneToMany((_type) => Task, (task) => task.user, { eager: true })
   tasks: Task[];
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  role: Role;
 }
