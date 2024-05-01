@@ -13,9 +13,9 @@ export class GetTasksFilterDto {
     required: false,
     type: TaskStatusEnum,
   })
-  status?: TaskStatusEnum;
+  readonly status?: TaskStatusEnum;
   @IsOptional()
   @IsString()
   @ApiProperty({ required: false })
-  search?: string;
+  readonly search?: string;
 }

@@ -15,7 +15,7 @@ export class AuthCredentialsDto {
   @MinLength(4)
   @MaxLength(20)
   @ApiProperty({ default: 'randomuser' })
-  username: string;
+  readonly username: string;
 
   @IsString()
   @MinLength(8)
@@ -24,8 +24,8 @@ export class AuthCredentialsDto {
     message: 'password is too weak',
   })
   @ApiProperty({ default: 'asasasAz892)$' })
-  password: string;
+  readonly password: string;
 
   @IsOptional()
-  refreshToken: string;
+  readonly refreshToken: string;
 }

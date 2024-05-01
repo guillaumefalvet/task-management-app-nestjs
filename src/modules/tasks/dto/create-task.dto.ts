@@ -4,9 +4,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateTaskDto {
   @IsNotEmpty()
   @ApiProperty({ default: 'Random task' })
-  title: string;
+  readonly title: string;
 
   @IsNotEmpty()
   @ApiProperty({ default: "Random task's description" })
-  description: string;
+  readonly description: string;
 }
