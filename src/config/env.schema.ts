@@ -16,7 +16,7 @@ import {
 export const envFileValidationSchema = Joi.object({
   // - Application - //
   [EnvEnum.appPort]: Joi.number().default(3000).required(),
-  [EnvEnum.appStage]: Joi.string().required(),
+  [EnvEnum.appStage]: Joi.string().valid('prod', 'dev', 'test').required(),
   [EnvEnum.appHost]: Joi.string().required(),
   [EnvEnum.appHttpProtocol]: Joi.string()
     .valid(HTTPS_PROTOCOL, HTTP_PROTOCOL)
