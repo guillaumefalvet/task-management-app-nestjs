@@ -4,12 +4,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerTheme } from 'swagger-themes';
 
 // - Models - //
-import {
-  ApiDocsUrlEnum,
-  AuthUrlEnum,
-  TaskUrlEnum,
-} from 'src/shared/models/routes';
 import { EnvEnum } from 'src/shared/models/env';
+import { API_PATH_DOCS } from 'src/shared/constants/constant-path';
 
 export class OpenAPIDocumentationBuilder {
   private _logger!: Logger;
@@ -31,12 +27,8 @@ export class OpenAPIDocumentationBuilder {
         .setTitle('The Task management API')
         .setDescription('REST API Documentation for task management')
         .setVersion('1.0')
-        .setExternalDoc(
-          'Find out about the websocket part of the API',
-          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.webSocket}`,
-        )
-        .addTag(AuthUrlEnum.base)
-        .addTag(TaskUrlEnum.base)
+        .addTag('auth')
+        .addTag('tasks')
         .addBearerAuth(
           {
             type: this._HTTP_PROTOCOL as any,
@@ -55,9 +47,9 @@ export class OpenAPIDocumentationBuilder {
       explorer: true,
       customCss: theme.getBuffer('dark'),
     };
-    SwaggerModule.setup(ApiDocsUrlEnum.rest, this.app, document, options);
+    SwaggerModule.setup(API_PATH_DOCS, this.app, document, options);
     this._logger.log(
-      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.rest}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}${API_PATH_DOCS}`,
     );
   }
 }

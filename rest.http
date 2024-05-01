@@ -8,7 +8,7 @@
 
 #### --------------AUTH--------------
 ### Create Account
-POST {{ endpoint }}/auth/create-account
+POST {{ endpoint }}/api/auth/create-account
 content-type: application/json
 
 {
@@ -18,7 +18,7 @@ content-type: application/json
 
 ### Login
 # @name login
-POST {{ endpoint }}/auth/login
+POST {{ endpoint }}/api/auth/login
 content-type: application/json
 
 {
@@ -28,7 +28,7 @@ content-type: application/json
 
 ### Refresh Token
 # @name login
-POST {{endpoint}}/auth/refresh-token
+POST {{endpoint}}/api/auth/refresh-token
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -38,27 +38,27 @@ Authorization: Bearer {{accessToken}}
 
 #### --------------TASKS--------------
 ### getAllTasks
-GET {{ endpoint }}/tasks
+GET {{ endpoint }}/api/tasks
 Authorization: Bearer {{accessToken}}
 
 ### getAllTasksgetTasksWithFilters
-GET {{ endpoint }}/tasks?status=IN_PROGRESS
+GET {{ endpoint }}/api/tasks?status=IN_PROGRESS
 Authorization: Bearer {{accessToken}}
 
 ### getTaskById
-GET {{ endpoint }}/tasks/{{id}}
+GET {{ endpoint }}/api/tasks/{{id}}
 Authorization: Bearer {{accessToken}}
 
 ### createTask
 # @name createTask
-POST {{ endpoint }}/tasks
+POST {{ endpoint }}/api/tasks
 content-type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 
 title=Clean My Room&description=lots of stuff to do
 
 ### updateTask
-PATCH {{ endpoint }}/tasks/{{id}}/status
+PATCH {{ endpoint }}/api/tasks/{{{{id}}}}/status
 content-type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 

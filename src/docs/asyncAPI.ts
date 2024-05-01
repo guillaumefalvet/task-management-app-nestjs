@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { AsyncApiDocumentBuilder, AsyncApiModule } from 'nestjs-asyncapi';
 
 // - Models - //
-import { ApiDocsUrlEnum } from 'src/shared/models/routes';
 import { EnvEnum } from 'src/shared/models/env';
 
 export class AsyncApiDocumentationBuilder {
@@ -26,10 +25,6 @@ export class AsyncApiDocumentationBuilder {
         .setTitle('The Task management API')
         .setDescription('WebSocket Documentation for task management')
         .setVersion('1.0')
-        .setExternalDoc(
-          'Find out about the REST API part of the API',
-          `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.rest}`,
-        )
         .setDefaultContentType('application/json')
         .addSecurity('user-password', { type: 'userPassword' })
         .addServer('task-management', {
@@ -39,9 +34,9 @@ export class AsyncApiDocumentationBuilder {
         .build(),
     );
 
-    await AsyncApiModule.setup(ApiDocsUrlEnum.webSocket, this._app, document);
+    await AsyncApiModule.setup('/docs/ws', this._app, document);
     this._logger.log(
-      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/${ApiDocsUrlEnum.webSocket}`,
+      `${this._HTTP_PROTOCOL}://${this._APP_HOST}:${this._APP_PORT}/docs/ws`,
     );
   }
 }

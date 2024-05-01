@@ -9,6 +9,7 @@ import {
   Patch,
   Query,
   UseGuards,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -26,22 +27,35 @@ import { Task } from './entities/task.entity';
 import { User } from 'src/modules/auth/entities/user.entity';
 
 // - Decorators - //
-import { GetUser } from 'src/modules/auth/get-user.decorator';
+import { GetUser } from 'src/modules/auth/decorators/get-user.decorator';
+import { Roles } from '../auth/decorators/get-role.decorator';
 
 // - Models - //
-import { TaskUrlEnum } from 'src/shared/models/routes';
+import { Role } from 'src/shared/models/role.enum';
 
 // - Constants - //
 import { TASK_ID_PARAM } from 'src/shared/constants/constant-params';
 
-@Controller(TaskUrlEnum.base)
-@ApiTags(TaskUrlEnum.base)
+// - Guards - //
+import { RoleGuard } from '../auth/guards/role.guard';
+
+// - Constants - //
+import {
+  API_PATH_TASK_CREATE_PATH,
+  API_PATH_TASK_DELETE_PATH,
+  API_PATH_TASK_GET_ALL_PATH,
+  API_PATH_TASK_GET_BY_ID_PATH,
+  API_PATH_TASK_UPDATE_STATUS_PATH,
+} from 'src/shared/constants/constant-path';
+
+@Controller()
+@ApiTags('tasks')
 @ApiBearerAuth('JWT-auth')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard(), RoleGuard)
 export class TasksController {
   private _logger = new Logger(TasksController.name);
   constructor(private _tasksService: TasksService) {}
-  @Get(TaskUrlEnum.getTasks)
+  @Get(API_PATH_TASK_GET_ALL_PATH)
   getTasks(
     @Query() filterDto: GetTasksFilterDto,
     @GetUser() user: User,
@@ -54,15 +68,15 @@ export class TasksController {
     return this._tasksService.getTasks(filterDto, user);
   }
 
-  @Get(TaskUrlEnum.getTaskById)
+  @Get(API_PATH_TASK_GET_BY_ID_PATH)
   getTaskById(
-    @Param(TASK_ID_PARAM) id: string,
+    @Param(TASK_ID_PARAM, ParseUUIDPipe) id: string,
     @GetUser() user: User,
   ): Promise<Task> {
     return this._tasksService.getTaskById(id, user);
   }
 
-  @Post(TaskUrlEnum.createTask)
+  @Post(API_PATH_TASK_CREATE_PATH)
   createTask(
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
@@ -75,9 +89,10 @@ export class TasksController {
     return this._tasksService.createTask(createTaskDto, user);
   }
 
-  @Delete(TaskUrlEnum.deleteTask)
+  @Delete(API_PATH_TASK_DELETE_PATH)
+  @Roles(Role.ADMIN)
   deleteTask(
-    @Param(TASK_ID_PARAM) id: string,
+    @Param(TASK_ID_PARAM, ParseUUIDPipe) id: string,
     @GetUser() user: User,
   ): Promise<void> {
     this._logger.verbose(
@@ -86,9 +101,9 @@ export class TasksController {
     return this._tasksService.deleteTask(id, user);
   }
 
-  @Patch(TaskUrlEnum.updateTaskStatus)
+  @Patch(API_PATH_TASK_UPDATE_STATUS_PATH)
   updateTaskStatus(
-    @Param(TASK_ID_PARAM) id: string,
+    @Param(TASK_ID_PARAM, ParseUUIDPipe) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: User,
   ): Promise<Task> {
