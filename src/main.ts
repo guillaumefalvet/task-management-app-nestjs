@@ -8,7 +8,7 @@ import { TransformInterceptor } from './transform.interceptor';
 
 // - Documentation - //
 import { OpenAPIDocumentationBuilder } from './docs/openAPI';
-import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
+// import { AsyncApiDocumentationBuilder } from './docs/asyncAPI';
 
 // - Models - //
 import { EnvEnum } from './shared/models/env';
@@ -33,8 +33,8 @@ async function bootstrap() {
   openApiDocs.createOpenApiDocumentation();
 
   // Create AsyncAPI documentation
-  const AsyncApiDocs = new AsyncApiDocumentationBuilder(app, configService);
-  await AsyncApiDocs.createAsyncApiDocumentation();
+  // const AsyncApiDocs = new AsyncApiDocumentationBuilder(app, configService);
+  // await AsyncApiDocs.createAsyncApiDocumentation();
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
