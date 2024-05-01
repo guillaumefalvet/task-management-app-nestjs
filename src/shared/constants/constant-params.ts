@@ -1,4 +1,4 @@
 /**
  * Task params
  */
-export const TASK_UUID_PARAM = 'uuid';
+export const TASK_ID_PARAM = 'id';
