@@ -191,10 +191,10 @@ export class AuthService {
    * @throws { UnauthorizedException } if the refresh token is invalid.
    */
   private async _verifyRefreshToken(refreshToken: string): Promise<any> {
-    const verifyRefreshToken = this._jwtService.decode(
-      refreshToken,
-      this._env.getOrThrow<DecodeOptions>(EnvEnum.jwtRefreshTokenSecret),
-    );
+    const verifyRefreshToken = this._jwtService.verify(refreshToken, {
+      secret: this._env.getOrThrow<string>(EnvEnum.jwtRefreshTokenSecret),
+      ignoreExpiration: false,
+    });
 
     if (!verifyRefreshToken) {
       throw new UnauthorizedException({
@@ -212,7 +212,7 @@ export class AuthService {
    */
   private async _verifyAccessToken(accessToken: string): Promise<JwtPayload> {
     return await this._jwtService.verify(accessToken, {
-      ignoreExpiration: true,
+      ignoreExpiration: false,
       secret: this._env.getOrThrow<string>(EnvEnum.jwtAccessTokenSecret),
     });
   }
