@@ -1,4 +1,4 @@
-import { DatabaseTypesEnum } from './dataBase';
+import { DatabaseTypesEnum } from './database';
 
 describe('DatabaseType', () => {
   it('should have the correct values', () => {
