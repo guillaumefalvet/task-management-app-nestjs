@@ -1,7 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
-  UseInterceptors,
   Controller,
   Post,
   Req,
@@ -30,7 +28,6 @@ export class AuthController {
   constructor(private _authService: AuthService) {}
 
   @Post(API_PATH_AUTH_CREATE)
-  @UseInterceptors(ClassSerializerInterceptor)
   signUp(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<any> {
@@ -38,7 +35,6 @@ export class AuthController {
   }
 
   @Post(API_PATH_AUTH_LOGIN)
-  @UseInterceptors(ClassSerializerInterceptor)
   signIn(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<any> {
@@ -46,7 +42,6 @@ export class AuthController {
   }
   @ApiBearerAuth('JWT-auth')
   @Post(API_PATH_AUTH_REFRESH_TOKEN)
-  @UseInterceptors(ClassSerializerInterceptor)
   refreshToken(
     @Body(ValidationPipe) refreshTokenDto: RefreshTokenDto,
     @Req() request: Request,

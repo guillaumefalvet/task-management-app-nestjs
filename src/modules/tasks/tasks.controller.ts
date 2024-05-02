@@ -10,6 +10,7 @@ import {
   Query,
   UseGuards,
   ParseUUIDPipe,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -55,6 +56,7 @@ import {
 export class TasksController {
   private _logger = new Logger(TasksController.name);
   constructor(private _tasksService: TasksService) {}
+
   @Get(API_PATH_TASK_GET_ALL_PATH)
   getTasks(
     @Query() filterDto: GetTasksFilterDto,
@@ -78,7 +80,7 @@ export class TasksController {
 
   @Post(API_PATH_TASK_CREATE_PATH)
   createTask(
-    @Body() createTaskDto: CreateTaskDto,
+    @Body(ValidationPipe) createTaskDto: CreateTaskDto,
     @GetUser() user: User,
   ): Promise<Task> {
     this._logger.verbose(
@@ -104,7 +106,7 @@ export class TasksController {
   @Patch(API_PATH_TASK_UPDATE_STATUS_PATH)
   updateTaskStatus(
     @Param(TASK_ID_PARAM, ParseUUIDPipe) id: string,
-    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+    @Body(ValidationPipe) updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: User,
   ): Promise<Task> {
     this._logger.verbose(
